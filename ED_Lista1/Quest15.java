@@ -1,12 +1,11 @@
 import java.util.Scanner;
 
 public class Quest15 {
-	private static Scanner in = new Scanner(System.in);
 
 	public static void main(String[] args) {
-
+		Scanner cin = new Scanner(System.in);
 		System.out.println("Digite um numero: ");
-		int num = in.nextInt();
+		int num = cin.nextInt();
 
 		if (num == 1) {
 			System.out.println("Um");
@@ -21,5 +20,7 @@ public class Quest15 {
 		} else {
 			System.out.println("N�mero inv�lido");
 		}
+
+		cin.close();
 	}
 }

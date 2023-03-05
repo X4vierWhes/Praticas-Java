@@ -17,7 +17,11 @@ public class Pessoa {
         setIdade(idade);
         setPeso(peso);
         setAltura(altura);
-        setIMC(peso, altura);
+        if (altura > 0) {
+            setIMC(peso / altura * altura);
+        } else {
+            setIMC(0.0);
+        }
     }
 
     public void setPeso(double peso) {
@@ -94,11 +98,8 @@ public class Pessoa {
     /**
      * @param IMC the IMC to set
      */
-    public void setIMC(double p, double a) {
-        if (altura == 0) {
-            this.IMC = 0;
-        }
-        this.IMC = (p / a * a);
+    public void setIMC(double imc) {
+        this.IMC = imc;
     }
 
     public void setAltura(double altura) {
@@ -107,6 +108,14 @@ public class Pessoa {
 
     public double getAltura() {
         return altura;
+    }
+
+    public double calcularIMC() {
+        if (this.altura == 0) {
+            this.IMC = 0;
+        }
+        double calc = (this.peso / this.altura * this.altura);
+        return calc;
     }
 
 }

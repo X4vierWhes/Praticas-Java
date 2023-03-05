@@ -6,22 +6,15 @@ public class Quest36 {
     Scanner scan = new Scanner(System.in);
     System.out.print("Digite um n�mero para calcular seu fatorial: ");
     int n = scan.nextInt();
-
-    // Chama a fun��o recursiva que calcula o fatorial
-    int resultado = fatorial(n);
-    System.out.println("O fatorial de " + n + " � " + resultado);
+    System.out.println("O fatorial: " + fat(n));
 
     scan.close();
   }
 
-  // Fun��o recursiva para calcular o fatorial
-  public static int fatorial(int n) {
-    // Condi��o de parada da recurs�o
+  public static int fat(int n) {
     if (n == 0) {
       return 1;
     }
-    // Chama a si mesma, decrementando o valor de n a cada chamada
-    // At� chegar ao caso base (n = 0)
-    return n * fatorial(n - 1);
+    return n * fat(n - 1);
   }
 }

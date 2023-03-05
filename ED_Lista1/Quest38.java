@@ -7,13 +7,13 @@ import java.util.List;
 
 public class Quest38 {
 	public static void main(String[] args) {
-		String path = "arquivo_binarioq32.dat";
-		List<PessoaQ32> lista = new ArrayList<PessoaQ32>();
+		String path = "bin32.dat";
+		List<Pessoa> lista = new ArrayList<Pessoa>();
 		try {
-			List<PessoaQ32> listOutput = leitor(path);
+			List<Pessoa> listOutput = leitor(path);
 
-			for (PessoaQ32 object : listOutput) {
-				PessoaQ32 myObj = (PessoaQ32) object;
+			for (Pessoa object : listOutput) {
+				Pessoa myObj = (Pessoa) object;
 				lista.add(myObj);
 
 				printObject(myObj);
@@ -34,23 +34,23 @@ public class Quest38 {
 		System.out.println(object.toString());
 	}
 
-	public static <T> void printArray(List<PessoaQ32> lista) {
+	public static <T> void printArray(List<Pessoa> lista) {
 
-		for (PessoaQ32 element : lista) {
+		for (Pessoa element : lista) {
 			System.out.println(element.toString());
 		}
 
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<PessoaQ32> leitor(String path) throws IOException, ClassNotFoundException {
-		List<PessoaQ32> lista = new ArrayList<PessoaQ32>();
+	public static List<Pessoa> leitor(String path) throws IOException, ClassNotFoundException {
+		List<Pessoa> lista = new ArrayList<Pessoa>();
 
 		File file = new File(path);
 
 		if (file.exists()) {
 			ObjectInputStream objInput = new ObjectInputStream(new FileInputStream(file));
-			lista = (ArrayList<PessoaQ32>) objInput.readObject();
+			lista = (ArrayList<Pessoa>) objInput.readObject();
 			objInput.close();
 		}
 

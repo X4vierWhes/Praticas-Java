@@ -3,64 +3,59 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Quest35 {
-	private static Scanner in = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		String path = "arquivo_csvQ35.csv";
-		String frase = "estude muito sempre sempre estude";
-
-		String[] palavras = frase.split(" ");
-
-		DicioPalavra[] dicio = new DicioPalavra[palavras.length];
+		String path = "arquivo35.txt";
+		String texto = "Eu eu eu tu tu tu nos bota";
+		String[] palavras = texto.split(" ");
+		int[] contagemPalavras = new int[palavras.length];
 
 		for (int i = 0; i < palavras.length; i++) {
-			dicio[i] = new DicioPalavra();
-			dicio[i].palavra = palavras[i];
-			dicio[i].vezes = 1;
+			String aux = palavras[i];
+
+			int contagem = 0;
+			for (int j = 0; j < palavras.length; j++) {
+				if (palavras[j].equalsIgnoreCase(aux)) {
+					contagem++;
+				}
+			}
+			contagemPalavras[i] = contagem;
 		}
 
+		String saida = "";
+
 		for (int i = 0; i < palavras.length; i++) {
-			for (int j = i + 1; j < palavras.length; j++) {
-				if (dicio[i].palavra != null && dicio[i].palavra.equals(dicio[j].palavra)) {
-					dicio[i].vezes++;
-					dicio[j].palavra = null;
+			if (contagemPalavras[i] > 0) {
+				if (!palavras[i].equals(" ")) {
+					saida += palavras[i] + " = " + contagemPalavras[i] + "\n";
+					contagemPalavras[i] = 0;
+				}
+				for (int j = i + 1; j < palavras.length; j++) {
+					if (palavras[j].equalsIgnoreCase(palavras[i])) {
+						palavras[j] = " ";
+					}
 				}
 			}
 		}
 
-		String textoInput = "";
-		String textoOutput = "";
-
-		for (int i = 0; i < dicio.length; i++) {
-			if (dicio[i].palavra != null) {
-				textoInput += dicio[i].palavra + ";" + dicio[i].vezes + ";\n";
-			}
+		try {
+			escritor(path, saida);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+
+		String output = "";
 
 		try {
-			escritor(path, textoInput);
+			output = leitor(path);
 		} catch (IOException e) {
-			System.out.println("Erro na escrita");
-			e.printStackTrace();
-		} catch (Exception e) {
-			System.out.println("Pane geral!");
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		try {
-			textoOutput = leitor(path);
-			System.out.print(textoOutput);
-		} catch (IOException e) {
-			System.out.println("Erro na leitura");
-			e.printStackTrace();
-		} catch (Exception e) {
-			System.out.println("Pane geral!");
-			e.printStackTrace();
-		}
-
+		System.out.println(output);
 	}
 
 	public static void escritor(String path, String texto) throws IOException {

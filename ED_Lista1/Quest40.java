@@ -6,9 +6,10 @@ import java.io.IOException;
 
 public class Quest40 {
 	public static void main(String[] args) {
-		String path = "java.examples-master/zenitpolar.txt";
+		String path = "codifica.txt";
 
-		String textoOutput = "", textoInput = "";
+		String textoOutput = "";
+		String textoInput = "";
 
 		try {
 			textoOutput = leitor(path);

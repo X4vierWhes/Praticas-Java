@@ -1,53 +1,44 @@
+import java.util.Scanner;
 
 public class Quest37 {
 	public static void main(String[] args) {
-		int a = 10;
-		int b = 20;
 
-		System.out.println(sumRecursive(a, b));
-		System.out.println(sumLoop(a, b));
+		System.out.println("Digite o valor de X ate Y para somar:");
+		Scanner cin = new Scanner(System.in);
+		int a = cin.nextInt();
+		int b = cin.nextInt();
+
+		System.out.println("Recursiva: " + Recursiva(a, b));
+		System.out.println("Loop: " + Loop(a, b));
+
+		cin.close();
 	}
 
-	public static int sumRecursive(int start, int end) {
-		if (start > end) {
-			return 0;
+	public static int Recursiva(int x, int y) {
+		if (x == y) {
+			return x;
 		} else {
-			return start + sumRecursive(start + 1, end);
+			if (x <= y) {
+				return x + Recursiva(x + 1, y);
+			} else if (y <= x) {
+				return y + Recursiva(y + 1, x);
+			}
 		}
+		return 0;
 	}
 
-	public static int sumLoop(int start, int end) {
+	public static int Loop(int x, int y) {
 		int total = 0;
-		for (int i = start; i <= end; i++) {
-			total += i;
+
+		if (x <= y) {
+			for (int i = x; i <= y; i++) {
+				total += i;
+			}
+		} else if (x >= y) {
+			for (int i = y; i <= x; i++) {
+				total += i;
+			}
 		}
 		return total;
 	}
-	/*
-	 * Pr�s da solu��o recursiva:
-	 * 
-	 * � uma solu��o elegante e concisa para problemas que s�o naturalmente
-	 * recursivos.
-	 * Pode ser mais f�cil de entender e explicar para outros programadores.
-	 * 
-	 * Contras da solu��o recursiva:
-	 * 
-	 * Pode consumir muita mem�ria devido � pilha de chamadas recursivas.
-	 * Pode ser mais lento do que uma solu��o com estrutura de repeti��o,
-	 * especialmente para problemas de tamanho grande.
-	 * 
-	 * Pr�s da solu��o com estrutura de repeti��o:
-	 * 
-	 * � mais eficiente em termos de uso de mem�ria.
-	 * Pode ser mais r�pido do que uma solu��o recursiva, especialmente para
-	 * problemas de tamanho grande.
-	 * 
-	 * Contras da solu��o com estrutura de repeti��o:
-	 * 
-	 * Pode ser menos elegante e mais dif�cil de entender e explicar para outros
-	 * programadores.
-	 * Pode ser mais dif�cil de implementar corretamente para problemas que s�o
-	 * naturalmente recursivos.
-	 * 
-	 */
 }

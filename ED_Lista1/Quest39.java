@@ -2,22 +2,22 @@ import java.util.ArrayList;
 
 public class Quest39 {
 	public static void main(String[] args) {
-		CRUD<PessoaQ32> crud = new CRUD<>();
+		CRUD<Pessoa> crud = new CRUD<>();
 
-		PessoaQ32 pessoa1 = new PessoaQ32();
-		pessoa1.setNome("Jo�o");
+		Pessoa pessoa1 = new Pessoa();
+		pessoa1.setName("Joao");
 		pessoa1.setCpf("123.456.789-10");
 		pessoa1.setIdade(30);
 		pessoa1.setAltura(1.75);
 		pessoa1.setPeso(70);
-		pessoa1.setImc(pessoa1.calcularIMC());
+		pessoa1.setIMC(pessoa1.calcularIMC());
 
 		crud.create(pessoa1);
 
-		PessoaQ32 pessoaLida = crud.read(0);
+		Pessoa pessoaLida = crud.read(0);
 		System.out.println(pessoaLida.toString());
 
-		pessoaLida.setNome("Jo�o Silva");
+		pessoaLida.setName("Whesley");
 		crud.update(0, pessoaLida);
 		pessoaLida = crud.read(0);
 		System.out.println(pessoaLida.toString());

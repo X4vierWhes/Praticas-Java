@@ -2,24 +2,23 @@ import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class Quest20 {
-	private static Scanner in = new Scanner(System.in);
 
 	public static void main(String[] args) {
-
+		Scanner cin = new Scanner(System.in);
 		float invest_inicial, invest_mensal, saldo_acumulado, juros_Mensal, rendimento_Mensal;
 		int qnt_meses;
 
 		System.out.println("Digite o investimento inicial: ");
-		invest_inicial = in.nextFloat();
+		invest_inicial = cin.nextFloat();
 
 		System.out.println("Digite o investimento mensal: ");
-		invest_mensal = in.nextFloat();
+		invest_mensal = cin.nextFloat();
 
 		System.out.println("Digite a quantidade de meses no investimento: ");
-		qnt_meses = in.nextInt();
+		qnt_meses = cin.nextInt();
 
 		System.out.println("Digite a taxa mensal dos juros(%): ");
-		juros_Mensal = in.nextFloat();
+		juros_Mensal = cin.nextFloat();
 		juros_Mensal = juros_Mensal / 100;
 
 		saldo_acumulado = invest_inicial;
@@ -33,6 +32,8 @@ public class Quest20 {
 
 			System.out.println("Mes " + dn.format(i) + " com saldo de: " + df.format(saldo_acumulado));
 		}
+
+		cin.close();
 
 	}
 }

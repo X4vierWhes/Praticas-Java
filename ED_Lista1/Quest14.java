@@ -1,7 +1,6 @@
 import java.util.Scanner;
 
 public class Quest14 {
-	private static Scanner in = new Scanner(System.in);
 
 	public static int calcDelta(int a, int b, int c) {
 		int delta;
@@ -18,16 +17,18 @@ public class Quest14 {
 
 	public static void main(String[] args) {
 		int a, b, c;
-
+		Scanner cin = new Scanner(System.in);
 		System.out.println("Digite o coeficiente A: ");
-		a = in.nextInt();
+		a = cin.nextInt();
 
 		System.out.println("Digite o coeficiente B: ");
-		b = in.nextInt();
+		b = cin.nextInt();
 
 		System.out.println("Digite o coeficiente C: ");
-		c = in.nextInt();
+		c = cin.nextInt();
 
 		calcRaizes(calcDelta(a, b, c), a, b);
+
+		cin.close();
 	}
 }
