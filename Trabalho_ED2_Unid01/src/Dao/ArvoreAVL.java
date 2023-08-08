@@ -1,11 +1,15 @@
 package Dao;
 
 public class ArvoreAVL<T> {
-	 Node<T> root;
-	//Fator balanceamento = alturaDireita - alturaEsquerda
-	//Fator balanceamento deve estar entra -1 >= x <= 1;
-	 
+	  Node<T> root;
 	
+	 
+
+////////////////////////////////////////////////////////////
+	  //Construtores:
+	  public ArvoreAVL() {
+		  root = new Node<T>();
+	  }
 	
 	 
 /////////////////////////////////////////////////////////////	 
@@ -27,6 +31,8 @@ public class ArvoreAVL<T> {
 	 
 	//Funcao para calcular o balanceamento do no
 	public void Balanceamento() {
+		//Fator balanceamento = alturaDireita - alturaEsquerda;
+		//Fator balanceamento deve estar entra -1 >= x <= 1;
 		//Se fator de balancemaneto do node pai for +2 esta desbalanceado para a direita, logo será feito balancemento pra esquerda
 		//Se fator de balancemaneto do node pai for -2 esta desbalanceado para a esquerda, logo será feito balancemento pra direita
 		//Se fator de balancemento do node pai for +2 e do filho -1, sera feito rotaçao dupla direita esquerda
@@ -42,12 +48,29 @@ public class ArvoreAVL<T> {
 	 
 	 
 	//Função para adicionar na arvore
-	public void Add(T elemento) {
+	public void Add(T elemento, int chave) {
+		this.root = this.Add(root, elemento, chave);
+	}
+	
+	public Node<T> Add(Node<T> noAtual, T elemento, int chave){
 		
+		if(noAtual == null) {
+			return new Node<T>(elemento, chave);
+		}
+		
+		if(noAtual.getChave() > chave) {
+			
+		}else if(noAtual.getChave() < chave) {
+			
+		}
+		return noAtual;
 		
 	}
 	
 	public void Remove(T elemento){
+	}
+	
+	public void Buscar() {
 		
 	}
 	
@@ -80,6 +103,9 @@ public class ArvoreAVL<T> {
 			return node;
 			
 		}
+		
+/////////////////////////////////////////////////////////////////////
+		//Getters e Setters
 	
 }
 
@@ -89,10 +115,20 @@ class Node<T>{
 	private Node<T> direita, esquerda;
 	private int chave, balanceamento;
 	
-	public Node(int chave, T value){
+	public Node(){
+		this.setChave(0);
+		this.setBalanceamento(0);
+		this.setValor(null);
+		this.setDireita(null);
+		this.setEsquerda(null);
+	}
+	
+	public Node(T value, int chave){
 		this.setChave(chave);
 		this.setBalanceamento(0);
 		this.setValor(value);
+		this.setDireita(null);
+		this.setEsquerda(null);
 	}
 
 	
