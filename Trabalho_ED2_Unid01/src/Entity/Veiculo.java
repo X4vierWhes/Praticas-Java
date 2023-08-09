@@ -5,6 +5,7 @@ public class Veiculo {
 	private String renavam;
 	private String modelo;
 	private int fabricacao;
+	private int chave;
 	private Condutor condutor;
 	
 	
@@ -17,6 +18,7 @@ public class Veiculo {
 		setModelo("");
 		setFabricacao(0);
 		setCondutor(null);
+		setChave(null);
 	}
 	
 	public Veiculo(String placa, String renavam, String modelo, int fabricacao, Condutor condutor) {
@@ -25,6 +27,7 @@ public class Veiculo {
 		setModelo(modelo);
 		setFabricacao(fabricacao);
 		setCondutor(condutor);
+		setChave(renavam);
 	}
 	
 /////////////////////////////////////////////////////	
@@ -100,5 +103,26 @@ public class Veiculo {
 		}
 	}
 
+	public int getChave() {
+		return chave;
+	}
+
+	public void setChave(String chave) {
+		this.chave = Integer.parseInt(chave);
+	}
+	
+	public void setName(String name) {
+		this.condutor.setName(name);
+	}
+	
+	public String getName() {
+		return this.condutor.getName();
+	}
+	
+	
+	public String toString() {
+		return "Nome: " + getCondutor().getName() + " CPF: " + getCondutor().getCpf();
+		
+	}
 
 }
