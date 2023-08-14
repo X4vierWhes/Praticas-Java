@@ -74,17 +74,12 @@ public class ArvoreAVL<T> {
 		if(no == null) {
 			return -1;
 		}
-		
-		
 		return no.getAltura();
-		
 	}
 	
 	//Verifica quem é maior
 	private int Maior(int a, int b) {
-		
 		return (a > b) ? a : b;
-
 	}
 	
 	//Função que obtem o fator de balanceamento
@@ -92,7 +87,6 @@ public class ArvoreAVL<T> {
 		if(no == null) {
 			return 0;
 		}
-		
 		return (this.Altura(no.getEsquerda()) - this.Altura(no.getDireita()));
 	}
 
@@ -135,8 +129,8 @@ public class ArvoreAVL<T> {
 		if(elemento != null) {
 			Veiculo veiculo = (Veiculo) elemento;
 			this.root = this.Add(root, elemento, veiculo.getChave());
-			
-			root.toString();
+			//root.toString();
+			Arquivo.escreverADD(veiculo);
 		}else {
 			System.out.println("ERROR.");
 		}
@@ -144,8 +138,8 @@ public class ArvoreAVL<T> {
 
 	public Node<T> Add(Node<T> noAtual, T elemento, long chave) {
 	    if (noAtual == null) {
-	    	Veiculo veiculo = (Veiculo) elemento;
-	    	System.out.println(veiculo.getName() + " Adicionado.");
+	    	//Veiculo veiculo = (Veiculo) elemento;
+	    	//System.out.println(veiculo.getName() + " Adicionado.");
 	        return new Node<T>(elemento, chave);
 	    }
 
@@ -160,6 +154,7 @@ public class ArvoreAVL<T> {
 
 	    // Atualizar altura
 	    noAtual.setAltura(1 + Maior(Altura(noAtual.getEsquerda()), Altura(noAtual.getDireita())));
+	    Arquivo.escreverAltura(noAtual);
 
 	    // Verificar e realizar balanceamento, se necessário
 	    
@@ -192,6 +187,7 @@ public class ArvoreAVL<T> {
 	public void Remover(T elemento) {
 	    Veiculo veiculo = (Veiculo) elemento;
 	    this.root = Remover(root, elemento, veiculo.getChave());
+	    Arquivo.escreverREMOVE(veiculo);
 	}
 
 	private Node<T> Remover(Node<T> noAtual, T elemento, long chave) {
@@ -227,6 +223,7 @@ public class ArvoreAVL<T> {
 	    if (noAtual != null) {
 	        // Atualizar altura e verificar balanceamento
 	        noAtual.setAltura(1 + Maior(Altura(noAtual.getEsquerda()), Altura(noAtual.getDireita())));
+	        Arquivo.escreverAltura(noAtual);
 	        return VerificarBalanceamento(noAtual);
 	    }
 
@@ -269,6 +266,9 @@ public class ArvoreAVL<T> {
 	    // Atualize alturas
 	    node.setAltura(1 + Maior(Altura(node.getEsquerda()), Altura(node.getDireita())));
 	    novo.setAltura(1 + Maior(Altura(novo.getEsquerda()), Altura(novo.getDireita())));
+	    
+	    
+	    Arquivo.escreverROTATIO(node, novo, "DIREITA");
 
 	    return novo; // Retorne o novo nó como raiz da subárvore
 	}
@@ -282,6 +282,8 @@ public class ArvoreAVL<T> {
 	    // Atualize alturas
 	    node.setAltura(1 + Maior(Altura(node.getEsquerda()), Altura(node.getDireita())));
 	    novo.setAltura(1 + Maior(Altura(novo.getEsquerda()), Altura(novo.getDireita())));
+	    
+	    Arquivo.escreverROTATIO(node, novo, "ESQUERDA");
 
 	    return novo; // Retorne o novo nó como raiz da subárvore
 	}

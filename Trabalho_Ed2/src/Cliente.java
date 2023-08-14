@@ -9,10 +9,6 @@ public class Cliente<T> {
 		protocol = new Protocolo<T>();
 	}
 	
-	public void Init() {
-		
-	}
-	
 	
 	public T BuscarRenavam(long renavam) {
 		return protocol.buscarRenavam(renavam);

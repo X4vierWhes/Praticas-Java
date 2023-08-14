@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -80,8 +81,18 @@ public class Main {
 						"------------------------------------------------------\n" +
 						"Digite sua opção: "
 						);
-				i = cin.nextInt();
 				
+					
+				  try {   
+			          i  = cin.nextInt();
+			          cin.nextLine();
+			        } catch (InputMismatchException e) {
+			            System.out.println("Erro: O valor inserido não é um número inteiro válido.");
+			            cin.nextLine();
+			            continue;
+			        }
+				
+			
 				switch(i) {
 				//Cadastrar
 				case 1: 
@@ -92,11 +103,28 @@ public class Main {
 					System.out.println("Entre com o MODELO do veiculo: ");
 					String modelo = cin.next();
 					System.out.println("Entre com o ano de FABRICAÇÃO do veiculo: ");
-					int ano = cin.nextInt();
+					int ano;
+					 try {   
+				           ano  = cin.nextInt();
+				          cin.nextLine();
+				        } catch (InputMismatchException e) {
+				            System.out.println("Erro: O valor inserido não é um número inteiro válido.");
+				            cin.nextLine();
+				            continue;
+				        }
 					System.out.println("Entre com o RENAVAM do veiculo: ");
 					String renavam = cin.next();
+					
+					try {
+						long teste = Long.parseLong(renavam);
+					}catch(NumberFormatException e) {
+						System.out.println("erro: Renavam invalido, tente novamente");
+						continue;
+					}
 					System.out.println("Entre com o PLACA do veiculo: ");
 					String placa = cin.next();
+						
+						
 						
 			client.Cadastrar(new Veiculo(placa, renavam, modelo, ano, new Condutor(name, cpf)));
 					
@@ -204,18 +232,19 @@ public class Main {
 					
 					break;
 					//Sair
-				case 7: flag = false;
+				case 7: 
+					flag = false;
 					break;
 				default: 
+					System.out.println("Por favor digite um numero valido.");
 					break;
 					
 				}
 				
 			}
-			
+			System.out.println("Volte sempre.");
 			cin.close();
-			
-			System.out.println("Volte sempre");
-		}
-
+	}
 }
+
+
