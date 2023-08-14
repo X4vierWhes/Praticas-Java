@@ -1,6 +1,4 @@
-
 import java.util.List;
-
 import Service.Protocolo;
 
 public class Cliente<T> {
@@ -11,17 +9,17 @@ public class Cliente<T> {
 		protocol = new Protocolo<T>();
 	}
 	
-	
-	public void Buscar() {
+	public void Init() {
 		
+	}
+	
+	
+	public T BuscarRenavam(long renavam) {
+		return protocol.buscarRenavam(renavam);
 	}
 	
 	public void Cadastrar(T elemento) {
 		protocol.cadastrar(elemento);
-	}
-	
-	public void Editar() {
-		
 	}
 	
 	public void Remover(T elemento) {
@@ -34,6 +32,10 @@ public class Cliente<T> {
 	
 	public List<T> OrdemToArray(){
 		return protocol.OrdemToArray();
+	}
+	
+	public int Quantidade() {
+		return protocol.Quantidade();
 	}
 
 	

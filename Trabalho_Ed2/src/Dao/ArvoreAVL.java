@@ -19,6 +19,16 @@ public class ArvoreAVL<T> {
 	 
 /////////////////////////////////////////////////////////////	 
 	 //Funções:
+	  //Retorna quantidade em numeros na arvore0
+	  public int Quantidade() {
+		  return this.Quantidade(this.root);
+	  }
+	  
+	  private int Quantidade(Node<T> node) {
+	        if (node == null)
+	            return 0;
+	        return 1 + Quantidade(node.getEsquerda()) + Quantidade(node.getDireita());
+	    }
 	 
 	 //Funçao de ordem
 	 public void Ordem() {
@@ -29,7 +39,8 @@ public class ArvoreAVL<T> {
 		 if(node != null) {
 			// Veiculo veiculo = (Veiculo) node.getValor();
 			 this.Ordem(node.getEsquerda());
-			 System.out.println(node.getChave() + " : " + node.toString());
+			 //node.getChave() + " : " +
+			 System.out.println(node.toString());
 			 this.Ordem(node.getDireita());
 			 
 		 }
@@ -131,18 +142,16 @@ public class ArvoreAVL<T> {
 		}
 	}
 
-	private Node<T> Add(Node<T> noAtual, T elemento, long chave) {
-		//System.out.println(chave);
+	public Node<T> Add(Node<T> noAtual, T elemento, long chave) {
 	    if (noAtual == null) {
-	       // System.out.println("Elemento adicionado na raiz;");
+	    	Veiculo veiculo = (Veiculo) elemento;
+	    	System.out.println(veiculo.getName() + " Adicionado.");
 	        return new Node<T>(elemento, chave);
 	    }
 
 	    if (chave < noAtual.getChave()) {
-	    	 //System.out.println("Elemento foi para esquerda;");
 	        noAtual.setEsquerda(Add(noAtual.getEsquerda(), elemento, chave));
 	    } else if (chave > noAtual.getChave()) {
-	    	//System.out.println("Elemento foi para direita;");
 	        noAtual.setDireita(Add(noAtual.getDireita(), elemento, chave));
 	    } else {
 	        // Chave já existe, não faz nada
@@ -153,8 +162,30 @@ public class ArvoreAVL<T> {
 	    noAtual.setAltura(1 + Maior(Altura(noAtual.getEsquerda()), Altura(noAtual.getDireita())));
 
 	    // Verificar e realizar balanceamento, se necessário
-	    return VerificarBalanceamento(noAtual);
-	    //return noAtual;
+	    
+		 int FatorBalanceamento = this.ObterFatorBalanceamento(noAtual);
+		 int FatorEsquerda = this.ObterFatorBalanceamento(noAtual.getEsquerda());
+		 int FatorDireita = this.ObterFatorBalanceamento(noAtual.getDireita());
+		    
+		 if (FatorBalanceamento > 1 && FatorEsquerda >= 0) {
+			 return RSD(noAtual); // Rotação Simples Direita
+		 } else if (FatorBalanceamento > 1 && FatorEsquerda < 0) {
+			 noAtual.setEsquerda(RSE(noAtual.getEsquerda())); // Rotação Simples Esquerda no filho esquerdo
+		     return RSD(noAtual); // Rotação Simples Direita no nó atual
+		 } else if (FatorBalanceamento < -1 && FatorDireita <= 0) {
+		        	return RSE(noAtual); // Rotação Simples Esquerda
+		          } else if (FatorBalanceamento < -1 && FatorDireita > 0) {
+		        	  noAtual.setDireita(RSD(noAtual.getDireita())); // Rotação Simples Direita no filho direito
+		              return RSE(noAtual); // Rotação Simples Esquerda no nó atual
+		          } else if (FatorBalanceamento > 1 && FatorEsquerda < 0) {
+		        	  noAtual.setEsquerda(RSE(noAtual.getEsquerda())); // Rotação Simples Esquerda no filho esquerdo
+		        	  return RSD(noAtual); // Rotação Simples Direita no nó atual
+		          } else if (FatorBalanceamento < -1 && FatorDireita > 0) {
+		        	  noAtual.setDireita(RSD(noAtual.getDireita())); // Rotação Simples Direita no filho direito
+		        	  return RSE(noAtual); // Rotação Simples Esquerda no nó atual
+		          }
+		    return noAtual;
+	    //return VerificarBalanceamento(noAtual);
 	}
 
 	
@@ -213,21 +244,22 @@ public class ArvoreAVL<T> {
 
 	
 	public T BuscarRenavam(long chave) {
-		return BuscarRenavam(this.root, chave);
+	    Node<T> value = BuscarChave(this.root, chave); // Aqui corrigi o nome do método chamado
+	    return value.getValor();
 	}
-	
-	public T BuscarRenavam(Node<T> noAtual, long chave) {
-		if(noAtual.getChave() == chave) {
-			return noAtual.getValor();
-		}else if (noAtual.getChave() < chave) {
-			return BuscarRenavam(noAtual.getEsquerda(), chave);
-		}else if(noAtual.getChave() > chave) {
-			return BuscarRenavam(noAtual.getDireita(), chave);
-		}else {
-			return noAtual.getValor();
-		}
+
+	public Node<T> BuscarChave(Node<T> noAtual, long chave) { // Aqui também corrigi o nome do método
+	    if (noAtual == null) {
+	        return null;
+	    } 
+	    if(noAtual.getChave() > chave) {
+	    	 return BuscarChave(noAtual.getEsquerda(), chave);
+	    }
+	    if(noAtual.getChave() < chave) {
+	    	 return BuscarChave(noAtual.getDireita(), chave);
+	    }
+		return noAtual;
 	}
-	
 	// Função para fazer rotação simples para direita
 	public Node<T> RSD(Node<T> node) {
 	    Node<T> novo = node.getEsquerda();
@@ -241,7 +273,7 @@ public class ArvoreAVL<T> {
 	    return novo; // Retorne o novo nó como raiz da subárvore
 	}
 
-	// Função para fazer rotação simples para esquerda
+	// Função para fazer rotação simples para esquerdaA
 	public Node<T> RSE(Node<T> node) {
 	    Node<T> novo = node.getDireita();
 	    node.setDireita(novo.getEsquerda()); // Passo 1: Atualize a referência direita do nó original
@@ -338,20 +370,21 @@ class Node<T>{
 	
 	public String toString() {
 		Veiculo veiculo = (Veiculo) this.getValor();
-		String resultado ="";
+		//String resultado ="";
 		
-		if(this.getEsquerda() != null ) {
-			resultado += ("Esquerda = " + getEsquerda().getChave() + "\n");
-		}else {
-			resultado += "Esquerda = null \n";
-		}
+		//if(this.getEsquerda() != null ) {
+			//resultado += ("Esquerda = " + getEsquerda().getChave() + "\n");
+		//}else {
+			//resultado += "Esquerda = null \n";
+		//}
 		
-		if(this.getDireita() != null ) {
-			resultado += ("Direita = " + getDireita().getChave() + "\n");
-		}else {
-			resultado += "Direita = null \n";
-		}
-		return resultado + veiculo.toString();
+		//if(this.getDireita() != null ) {
+			//resultado += ("Direita = " + getDireita().getChave() + "\n");
+		//}else {
+		//	resultado += "Direita = null \n";
+		//}
+		//resultado + 
+		return veiculo.toString();
 	}
 	
 

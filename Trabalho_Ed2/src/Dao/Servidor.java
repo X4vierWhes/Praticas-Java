@@ -10,16 +10,13 @@ public class Servidor<T> {
 		root = new ArvoreAVL<T>();
 	}
 	
-	public void buscar() {
+	public T buscarRenavam(long renavam) {
+		return root.BuscarRenavam(renavam);
 		
 	}
 	
 	public void cadastrar(T elemento) {
 		root.Add(elemento);
-	}
-	
-	public void editar() {
-		
 	}
 	
 	public void remover(T elemento) {
@@ -32,6 +29,11 @@ public class Servidor<T> {
 	
 	public List<T> OrdemToArray(){
 		return root.OrdemToArray();
+	}
+
+	public int Quantidade() {
+		
+		return root.Quantidade();
 	}
 
 }

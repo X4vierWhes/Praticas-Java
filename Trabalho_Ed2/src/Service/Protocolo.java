@@ -11,16 +11,12 @@ public class Protocolo<T> {
 		server = new Servidor<T>();
 	}
 	
-	public void buscar() {
-		
+	public T buscarRenavam(long renavam) {
+		return server.buscarRenavam(renavam); 
 	}
 	
 	public void cadastrar(T elemento) {
 		server.cadastrar(elemento);
-	}
-	
-	public void editar() {
-		
 	}
 	
 	public void remover(T elemento) {
@@ -34,5 +30,11 @@ public class Protocolo<T> {
 	public List<T> OrdemToArray(){
 		return server.OrdemToArray();
 	}
+
+	public int Quantidade() {
+		
+		return server.Quantidade();
+	}
+
 
 }
