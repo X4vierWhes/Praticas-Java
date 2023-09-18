@@ -2,6 +2,8 @@ import java.util.InputMismatchException;
 import Entity.*;
 import java.util.Scanner;
 
+import Dao.Arquivo;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -13,7 +15,7 @@ public class Main {
 		
 		System.out.println("Deseja utilizar enderaçamento ABERTO(1) ou EXTERIOR(2): ");
 		int enderecamento = cin.nextInt();
-		
+		Arquivo.clear();
 		switch(enderecamento) {
 			case 1: client = new Cliente(tam, true); break; //Aberto
 			case 2: client = new Cliente(tam, false); break; //Fechado
@@ -21,7 +23,7 @@ public class Main {
 		}
 		
 		//System.out.println(12345678901l%100);
-		//client.Init();
+		client.Init();
 		//client.Cadastrar(new Veiculo("ABC1234", "12345678901", "Ford Ka", 2007, new Condutor("Whesley", "11111111111")));
 		//client.Cadastrar(new Veiculo("DEF5678", "23456789012", "Toyota Corolla", 2015, new Condutor("Ana", "22222222222")));
 		//client.Cadastrar(new Veiculo("GHI9012", "34567890123", "Honda Civic", 2010, new Condutor("Carlos", "33333333333")));

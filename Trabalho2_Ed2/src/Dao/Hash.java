@@ -11,6 +11,7 @@ public class Hash {
 	private int elementos;
 	private boolean openAdress;
 	private Scanner cin = new Scanner(System.in);
+	
 	///////////////////////////////////////////////////////////////////////////////
 	//Construtores
 	public Hash(int tam, boolean adress) {
@@ -87,6 +88,7 @@ public class Hash {
 				if(root[index].getValor() == null) {
 					root[index] = new Node(cadastrar);
 					this.elementos++;
+					Arquivo.logADD(cadastrar);
 					flag = false;
 				}else {
 					index++;
@@ -102,11 +104,13 @@ public class Hash {
 	        if (root.getValor() == null) {
 	            root.setValor(cadastrar); // Define o valor do nó atual como o veículo a ser inserido
 	            this.elementos++;
+	            Arquivo.logADD(cadastrar);
 	            flag = false;
 	        } else if (root.getNext() == null) {
 	            Node newNode = new Node(cadastrar);
 	            root.setNext(newNode); // Define o próximo nó como o novo nó com o veículo
 	            this.elementos++;
+	            Arquivo.logADD(cadastrar);
 	            flag = false;
 	        } else {
 	            root = root.getNext(); // Avança para o próximo nó na lista
@@ -138,7 +142,7 @@ public class Hash {
 	    if (root == null) {
 	        return; // A lista está vazia, nada para remover
 	    }
-	    
+	    Veiculo copia = root.getValor();
 	    Node prevNode = null;
 	    Node currentNode = root;
 	    
@@ -152,6 +156,7 @@ public class Hash {
 	                prevNode.setNext(currentNode.getNext());
 	            }
 	            this.elementos--;
+	            Arquivo.logREMOVE(copia);
 	            return; // Veículo removido com sucesso
 	        }
 	        prevNode = currentNode;
