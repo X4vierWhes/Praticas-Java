@@ -5,16 +5,28 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) {
+		Scanner cin = new Scanner(System.in);
+		Cliente client = null;  //= new Cliente(tam, true);
 		int tam = 100;
-		Cliente client = new Cliente(tam, true);
-		//System.out.println(12345678901l%100);
-		//client.Init();
-		client.Cadastrar(new Veiculo("ABC1234", "12345678901", "Ford Ka", 2007, new
-				  Condutor("Whesley", "11111111111")));
-
 		boolean flag = true;
 		int i = 0;
-		Scanner cin = new Scanner(System.in);
+		
+		System.out.println("Deseja utilizar enderaçamento ABERTO(1) ou EXTERIOR(2): ");
+		int enderecamento = cin.nextInt();
+		
+		switch(enderecamento) {
+			case 1: client = new Cliente(tam, true); break; //Aberto
+			case 2: client = new Cliente(tam, false); break; //Fechado
+			default: System.out.println("Opção invalida."); flag = false; break;
+		}
+		
+		//System.out.println(12345678901l%100);
+		//client.Init();
+		//client.Cadastrar(new Veiculo("ABC1234", "12345678901", "Ford Ka", 2007, new Condutor("Whesley", "11111111111")));
+		//client.Cadastrar(new Veiculo("DEF5678", "23456789012", "Toyota Corolla", 2015, new Condutor("Ana", "22222222222")));
+		//client.Cadastrar(new Veiculo("GHI9012", "34567890123", "Honda Civic", 2010, new Condutor("Carlos", "33333333333")));
+
+		
 
 		while (flag) {
 
@@ -94,7 +106,7 @@ public class Main {
 						continue;
 					}
 					
-					System.out.println(client.Editar(placaEditar, keyEditar) ? "Veiculo editado." : "Error.");
+					System.out.println(client.Editar(placaEditar, keyEditar) ? "Veiculo editado." : "Não editado.");
 					break;
 				// Remover
 				case 4:

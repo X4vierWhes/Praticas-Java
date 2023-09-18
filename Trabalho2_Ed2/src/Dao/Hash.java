@@ -6,6 +6,7 @@ import Entity.Veiculo;
 
 public class Hash {
 	Node[] root;
+	
 	private int tam;
 	private int elementos;
 	private boolean openAdress;
@@ -29,6 +30,17 @@ public class Hash {
 			this.openAdress = true;
 			
 		}else { //Endereçamento fechado
+			this.tam = calcTam(tam);
+			root = new Node[this.tam];
+			this.elementos = 0;
+			
+			if(this.tam >= tam) {
+				for(int i = 0; i < this.tam; i++) {
+					root[i] = new Node();
+				}
+			}else {
+				System.out.println("Error.");
+			}
 			this.openAdress = false;
 		}
 	}
@@ -55,14 +67,14 @@ public class Hash {
 	public void Insert(Veiculo inserir) {
 		//////////////////////////////////////////////////////////////////////////
 		//Calculando index que o veiculo será inserido
-		int index = (int) (inserir.getChave()%100);
+		int index = (int) (Math.abs(inserir.getChave())%100);
 		
 		/////////////////////////////////////////////////////////////////////////
 		//acrescentar
 		if(openAdress) { //Se escolhido opção de endereçamento aberto
 			this.OpenInsert(this.root, inserir, index);
 		}else { //Se escolhido opção de endereçamento exterior/Fechado
-			this.ClosedInsert(this.root, inserir, index);
+			this.ClosedInsert(this.root[index], inserir, index);
 		}
 		
 	}
@@ -84,17 +96,31 @@ public class Hash {
 	}
 	
 	//Inserir em endereçamento exterior/fechado
-	private void ClosedInsert(Node[]root, Veiculo cadastrar, int index) {
-		
+	private void ClosedInsert(Node root, Veiculo cadastrar, int index) {
+	    boolean flag = true;
+	    while (flag) {
+	        if (root.getValor() == null) {
+	            root.setValor(cadastrar); // Define o valor do nó atual como o veículo a ser inserido
+	            this.elementos++;
+	            flag = false;
+	        } else if (root.getNext() == null) {
+	            Node newNode = new Node(cadastrar);
+	            root.setNext(newNode); // Define o próximo nó como o novo nó com o veículo
+	            this.elementos++;
+	            flag = false;
+	        } else {
+	            root = root.getNext(); // Avança para o próximo nó na lista
+	        }
+	    }
 	}
 	
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	//Funções de Remover	
-	public void Remove(String placa,long key) {
+	public void Remove(String placa, long key) {
 		//////////////////////////////////////////////////////////////////////////
 		//Calculando index que o veiculo será removido
-		int index = (int)key%100;
+		int index = (int)(key%100);
 		
 		//////////////////////////////////////////////////////////////////////////
 		
@@ -103,40 +129,62 @@ public class Hash {
 		if(openAdress) { //Se escolhido opção de endereçamento aberto
 			this.OpenRemove(this.root, index, placa);
 		}else { //Se escolhido opção de endereçamento exterior/Fechado
-			this.ClosedRemove(this.root, index, placa);
+			this.ClosedRemove(this.root[index], placa);
 		}
 		
 	}
 	
-	private void ClosedRemove(Node[] root2, int index, String placa) {
-		// TODO Auto-generated method stub
-		
+	private void ClosedRemove(Node root, String placa) {
+	    if (root == null) {
+	        return; // A lista está vazia, nada para remover
+	    }
+	    
+	    Node prevNode = null;
+	    Node currentNode = root;
+	    
+	    while (currentNode != null) {
+	        if (currentNode.getValor() != null && currentNode.getValor().getPlaca().equals(placa)) {
+	            if (prevNode == null) {
+	                // Remover o primeiro nó da lista
+	                root.setValor(null);
+	            } else {
+	                // Remover um nó no meio ou no final da lista
+	                prevNode.setNext(currentNode.getNext());
+	            }
+	            this.elementos--;
+	            return; // Veículo removido com sucesso
+	        }
+	        prevNode = currentNode;
+	        currentNode = currentNode.getNext();
+	    }
 	}
 
-	private void OpenRemove(Node[] root, int index, String placa) {
-	    boolean flag = true;
-	    int indexEscolhido = index;
-	    
-	    while (flag) {
+	private void OpenRemove(Node[] root, long key, String placa) {
+	    int index = (int) (key % 100);
+
+	    if (index < 0) {
+	        return; // Índice negativo, saia da função
+	    }
+
+	    while (true) {
 	        if (root[index] != null && root[index].getValor() != null && root[index].getValor().getPlaca().equals(placa)) {
 	            // Encontrou o nó a ser removido
-	            while (flag) {
-	                if (index + 1 < root.length && root[index + 1] != null && root[index + 1].getIndex() == indexEscolhido) {
-	                    root[index] = root[index + 1];
-	                    index++;
-	                } else {
-	                    root[index] = null;
-	                    elementos--;
-	                    flag = false;
-	                }
+	            System.out.println("Encontrou.");
+	            if (index + 1 < root.length && root[index + 1] != null && root[index + 1].getIndex() == index) {
+	                root[index] = root[index + 1];
+	                index++;
+	            } else {
+	                root[index] = null;
+	                elementos--;
+	                break; // Sai do loop após a remoção bem-sucedida
 	            }
 	        } else {
 	            // Não encontrou, passa para o próximo índice
 	            index++;
-	            
+
 	            // Verifica se atingiu o final do array
 	            if (index >= root.length) {
-	                flag = false;
+	                break; // Sai do loop se o final do array for atingido
 	            }
 	        }
 	    }
@@ -152,12 +200,41 @@ public class Hash {
 			}
 			return false;
 		}else {
-			
+			if(this.ClosedEdit(this.root[index], placa)) {
+				return true;
+			}
 		}
 		
 		return false;
 	}
 	
+	private boolean ClosedEdit(Node node, String placa) {
+	    boolean flag = true;
+
+	    while (flag) {
+	        if (node != null && node.getValor() != null && node.getValor().getPlaca().equals(placa)) {
+	            // Encontrou o veículo a ser editado
+	            System.out.println("Editar NOME do condutor: ");
+	            node.getValor().setName(cin.next());
+	            System.out.println("Editar CPF do condutor: ");
+	            node.getValor().setCpf(cin.next());
+	            System.out.println("Editar PLACA do veículo: ");
+	            node.getValor().setPlaca(cin.next());
+	            System.out.println("Editar Modelo do veículo: ");
+	            node.getValor().setModelo(cin.next());
+	            System.out.println("Editar Ano de FABRICAÇÃO do veículo: ");
+	            node.getValor().setFabricacao(cin.nextInt());
+	            return true; // Retorna true após a edição bem-sucedida
+	        } else if (node == null || node.getValor() == null) {
+	            flag = false; // Não encontrou o veículo, pode sair do loop
+	        } else {
+	            node = node.getNext(); // Avança para o próximo nó na lista
+	        }
+	    }
+	    cin.close();
+	    return false; // Retorna false se o veículo não for encontrado
+	}
+
 	private boolean OpenEdit(Node[] root, String placa, int index) {
 		 
 		 boolean flag = true;
@@ -191,20 +268,36 @@ public class Hash {
 	//Funções de Buscar	
 	public Veiculo Search(String placa, long key) {
 	    int index = (int)(key%100);
+	    Veiculo encontrado = null;
 	    if (openAdress) { // Buscar por endereçamento aberto
-	        Veiculo encontrado = this.OpenSearch(root, placa, index);
+	         encontrado = this.OpenSearch(root, placa, index);
 	        if (encontrado != null) {
 	            return encontrado;
 	        } else {
 	           return null;
 	        }
 	    } else { // Buscar por endereçamento fechado
-	        // Lógica para endereçamento exterior/Fechado, se necessário
+	    	 encontrado = this.ClosedSearch(root[index], placa, index);
+		        if (encontrado != null) {
+		            return encontrado;
+		        } else {
+		           return null;
+		        }
 	    }
-	    
-	    return null;
 	}
-	private Veiculo ClosedSearch(Node[] root, String placa, int index) {
+	private Veiculo ClosedSearch(Node root, String placa, int index) {
+		boolean flag = true;
+		while(flag) {
+			if (index >= 0 && index < this.tam && root != null && root.getValor() != null) {
+	            if (root.getValor().getPlaca().equals(placa)) {
+	                return root.getValor(); // Retorna o valor encontrado
+	            } else {
+	                return this.ClosedSearch(root.getNext(), placa, index);
+	            }
+	        } else {
+	            flag = false; // Não encontrou o elemento, pode sair do loop
+	        }
+		}
 		return null;
 	}
 
@@ -227,7 +320,7 @@ public class Hash {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	//Funções de listagem
 	public void List() {
-	    System.out.println(this.tam);
+	    System.out.println(this.tam + " - " + this.elementos);
 	    if (openAdress) {
 	        if (elementos != 0) {
 	            for (int i = 0; i < this.tam; i++) {
@@ -239,7 +332,16 @@ public class Hash {
 	            System.out.println("Hash vazia.");
 	        }
 	    } else {
-	        // Lógica para endereçamento exterior/Fechado, se necessário
+	    	// Lógica para endereçamento exterior/Fechado
+	        for (int i = 0; i < this.tam; i++) {
+	            Node currentNode = root[i];
+	            while (currentNode != null) {
+	                if (currentNode.getValor() != null) {
+	                    System.out.println(currentNode.getValor().toString());
+	                }
+	                currentNode = currentNode.getNext();
+	            }
+	        }
 	    }
 	}
 	
@@ -247,16 +349,44 @@ public class Hash {
 		if(openAdress) { //Listar em fomato de endeçamento aberto
 			if(elementos!= 0) {
 				for(int i = 0; i < this.tam; i++) {
-					System.out.println(root[i].getIndex() + " --- " + root[i].getChave());
+					if(root[i].getIndex() != -1) {
+						System.out.println(root[i].getIndex() + " --- " + root[i].getChave());
+					}
 				}
 			}else {
 				System.out.println("Hash vazia.");
 			}
 		}else {
-			
+			for(int i = 0; i < this.tam; i++) {
+				this.ListarVetClosed(root[i]);
+			}
 		}
+
 	}
 	
+	private void ListarVetClosed(Node node) {
+		boolean flag = true;
+		
+		while(flag) {
+			if(node.getValor() != null) {
+				if(node.getIndex() != -1) {
+				System.out.print(node.getIndex() + " --- " + node.getChave() + " --> ");
+				}
+				if(node.getNext() != null) {
+					this.ListarVetClosed(node.getNext());
+				}else {
+					System.out.print("NULL");
+					flag = false;
+					System.out.println();
+				}
+			}else {
+				System.out.println("NULL");
+				flag = false;
+			}
+		}
+		
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	//Funções de suporte
 	// Função para verificar se um número é primo
@@ -288,7 +418,7 @@ public class Hash {
 
 class Node {
 	private Veiculo valor;
-	private Node next, prev;
+	private Node next;
 	private long chave;
 	private int index;
 
@@ -296,7 +426,6 @@ class Node {
 		this.setChave(-1);
 		this.setValor(null);
 		this.setNext(null);
-		this.setPrev(null);
 		this.setIndex(-1);
 
 	}
@@ -306,7 +435,6 @@ class Node {
 		this.setChave(value.getChave());
 		this.setValor(value);
 		this.setNext(null);
-		this.setPrev(null);
 	}
 	
 
@@ -340,14 +468,6 @@ class Node {
 
 	public void setIndex(long index) {
 		this.index = (int)index%100;
-	}
-
-	public Node getPrev() {
-		return prev;
-	}
-
-	public void setPrev(Node prev) {
-		this.prev = prev;
 	}
 
 }
