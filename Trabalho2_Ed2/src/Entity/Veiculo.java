@@ -32,6 +32,7 @@ public class Veiculo {
 	
 /////////////////////////////////////////////////////	
 	//Getters e Setters
+	
 	public String getPlaca() {
 		return placa;
 	}
@@ -108,7 +109,11 @@ public class Veiculo {
 	}
 
 	public void setChave(String chave) {
-		this.chave = Long.parseLong(chave);
+		if(chave != null) {
+			this.chave = Long.parseLong(chave);
+		}else {
+			this.chave = -1;
+		}
 	}
 	
 	public void setName(String name) {
@@ -123,12 +128,21 @@ public class Veiculo {
 		return this.condutor.getCpf();
 	}
 	
+	public void setCpf(String cpf) {
+		this.condutor.setCpf(cpf);
+	}
+	
 	
 	public String toString() {
-		return "-------------------------------------------  \n" +
-				"Nome: " + getCondutor().getName() + " \n" +  "CPF: " + getCondutor().getCpf() + " \n" + 
-				"Placa: " + getPlaca()  + " \n" + "Modelo: " + getModelo() + " \n" + "Ano Fabricação: " + getFabricacao() 
-				+ " \n" + "Renavam: " + getRenavam() + " \n" + "-------------------------------------------  \n" ;
+		return "-------------------------------------------\n" +
+				"Index: " + (getChave()%100) + " \n" + 
+				"Nome: " + getCondutor().getName() + " \n" + 
+				"CPF: " + getCondutor().getCpf() + " \n" + 
+				"Placa: " + getPlaca()  + " \n" + 
+				"Modelo: " + getModelo() + " \n" + 
+				"Ano Fabricação: " + getFabricacao() + " \n" + 
+				"Renavam: " + getRenavam() + " \n" 
+				+ "-------------------------------------------\n" ;
 		
 	}
 
