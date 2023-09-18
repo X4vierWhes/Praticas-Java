@@ -9,6 +9,17 @@ import Entity.Veiculo;
 
 public class Arquivo {
 	
+	public static void logFc(double loadFactor) {
+	    try {
+	        FileWriter writer = new FileWriter("src/Resources/log_FC.txt", true); // Abre o arquivo em modo de apêndice
+	        writer.write("Fator de Carga Atual: " + loadFactor + "\n");
+	        writer.close();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	
 	@SuppressWarnings("unused")
 	public static void logADD(Veiculo veiculo) {
         String nomeArquivo = "src/Resources/log_ADD.txt";
@@ -115,6 +126,33 @@ public class Arquivo {
 
             // Agora, você pode criar um novo arquivo, se necessário
             if (arquivo2.createNewFile()) {
+                System.out.println("Arquivo limpo e recriado com sucesso.");
+            } else {
+                System.out.println("Falha ao criar o novo arquivo.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        // Especifique o caminho do arquivo que você deseja limpar
+        String logFC ="src/Resources/log_FC.txt";
+
+        // Crie um objeto File com base no caminho do arquivo
+        File arquivo3 = new File(logFC);
+
+        try {
+            // Verifique se o arquivo existe
+            if (arquivo3.exists()) {
+                // Delete o arquivo existente
+                if (arquivo3.delete()) {
+                    System.out.println("Arquivo antigo excluído com sucesso.");
+                } else {
+                    System.out.println("Falha ao excluir o arquivo antigo.");
+                }
+            }
+
+            // Agora, você pode criar um novo arquivo, se necessário
+            if (arquivo3.createNewFile()) {
                 System.out.println("Arquivo limpo e recriado com sucesso.");
             } else {
                 System.out.println("Falha ao criar o novo arquivo.");

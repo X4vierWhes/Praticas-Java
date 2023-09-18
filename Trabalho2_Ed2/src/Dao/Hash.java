@@ -29,6 +29,7 @@ public class Hash {
 			}
 			
 			this.openAdress = true;
+			Arquivo.logFc(this.calcFc());
 			
 		}else { //Endereçamento fechado
 			this.tam = calcTam(tam);
@@ -43,6 +44,7 @@ public class Hash {
 				System.out.println("Error.");
 			}
 			this.openAdress = false;
+			Arquivo.logFc(this.calcFc());
 		}
 	}
 	
@@ -60,6 +62,10 @@ public class Hash {
 		}
 		
 		return newTam;
+	}
+	
+	public double calcFc() {
+	    return (double) this.elementos / this.tam;
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,6 +95,7 @@ public class Hash {
 					root[index] = new Node(cadastrar);
 					this.elementos++;
 					Arquivo.logADD(cadastrar);
+					Arquivo.logFc(this.calcFc());
 					flag = false;
 				}else {
 					index++;
@@ -105,12 +112,14 @@ public class Hash {
 	            root.setValor(cadastrar); // Define o valor do nó atual como o veículo a ser inserido
 	            this.elementos++;
 	            Arquivo.logADD(cadastrar);
+	            Arquivo.logFc(this.calcFc());
 	            flag = false;
 	        } else if (root.getNext() == null) {
 	            Node newNode = new Node(cadastrar);
 	            root.setNext(newNode); // Define o próximo nó como o novo nó com o veículo
 	            this.elementos++;
 	            Arquivo.logADD(cadastrar);
+	            Arquivo.logFc(this.calcFc());
 	            flag = false;
 	        } else {
 	            root = root.getNext(); // Avança para o próximo nó na lista
@@ -157,6 +166,7 @@ public class Hash {
 	            }
 	            this.elementos--;
 	            Arquivo.logREMOVE(copia);
+	            Arquivo.logFc(this.calcFc());
 	            return; // Veículo removido com sucesso
 	        }
 	        prevNode = currentNode;
@@ -166,7 +176,6 @@ public class Hash {
 
 	private void OpenRemove(Node[] root, long key, String placa) {
 	    int index = (int) (key % 100);
-
 	    if (index < 0) {
 	        return; // Índice negativo, saia da função
 	    }
@@ -174,13 +183,15 @@ public class Hash {
 	    while (true) {
 	        if (root[index] != null && root[index].getValor() != null && root[index].getValor().getPlaca().equals(placa)) {
 	            // Encontrou o nó a ser removido
-	            System.out.println("Encontrou.");
+	            //System.out.println("Encontrou.");
+	        	Arquivo.logREMOVE(root[index].getValor());
 	            if (index + 1 < root.length && root[index + 1] != null && root[index + 1].getIndex() == index) {
 	                root[index] = root[index + 1];
 	                index++;
 	            } else {
 	                root[index] = null;
 	                elementos--;
+	                Arquivo.logFc(this.calcFc());
 	                break; // Sai do loop após a remoção bem-sucedida
 	            }
 	        } else {

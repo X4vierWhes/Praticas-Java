@@ -1,9 +1,12 @@
 package Dao;
 
+import java.util.Scanner;
+
 import Entity.Veiculo;
 
 public class Servidor {
 	Hash root;
+	private Scanner cin = new Scanner(System.in);
 
 	// Construtores
 	public Servidor(int tam, boolean adress) {
@@ -15,7 +18,27 @@ public class Servidor {
 	}
 	
 	public void Remover(String placa, long chave) {
-		root.Remove(placa, chave);
+		Veiculo remover = this.Buscar(placa, chave);
+		boolean flag = ((remover != null) ? true: false);
+		if(flag) {
+			System.out.println(remover.toString());
+			
+			System.out.println("Tem certeza que deseja remover? (S/N)");
+			String escolha = cin.next();
+			
+			switch(escolha) {
+			case "s": 
+			case "S":
+				System.out.println("removido.");
+				root.Remove(placa, chave);
+				break;
+			case "n":
+			case "N": System.out.println("Naõ removido.");
+				break;
+			}
+		}else {
+			System.out.println("Naõ encontrado.");
+		}
 	}
 	
 	public Veiculo Buscar(String placa, long chave) {

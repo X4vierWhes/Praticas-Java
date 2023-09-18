@@ -52,7 +52,7 @@ public class Cliente {
 		  this.protocol.Cadastrar(new Veiculo("MNO6789", "56789012345", "Volkswagen Golf",
 		  2014, new Condutor("Gabriel", "55555555555")));
 		  this.protocol.Cadastrar(new Veiculo("PQR0123", "67890123456", "Nissan Sentra", 2013,
-		  new Condutor("Natasha", "66666666666")));
+		  new Condutor("Dorivaldiola", "66666666666")));
 		  this.protocol.Cadastrar(new Veiculo("STU4567", "78901234567", "Hyundai Elantra",
 		  2016, new Condutor("Lucas", "77777777777")));
 		  this.protocol.Cadastrar(new Veiculo("VWX7890", "89012345678", "Kia Optima", 2012,
@@ -109,7 +109,7 @@ public class Cliente {
 		  new Condutor("Gabriel", "34567890123")));
 		  this.protocol.Cadastrar(new Veiculo("VWX7890", "44556677889", "Nissan Rogue", 2018,
 		  new Condutor("Mariana", "45678901234")));
-		  this.protocol.Cadastrar(new Veiculo("YZA0123", "55667788990", "Hyundai Tucson",
+		  this.protocol.Cadastrar(new Veiculo("YZA0123", "55667788997", "Hyundai Tucson",
 		  2015, new Condutor("Nathan", "56789012345")));
 		  this.protocol.Cadastrar(new Veiculo("BCD3456", "66778899001", "Kia Sportage", 2014,
 		  new Condutor("Marta", "67890123456")));
@@ -129,7 +129,7 @@ public class Cliente {
 		  2019, new Condutor("Liam", "34567890123")));
 		  this.protocol.Cadastrar(new Veiculo("ZAB6789", "44556677889", "Toyota Highlander",
 		  2016, new Condutor("Ava", "45678901234")));
-		  this.protocol.Cadastrar(new Veiculo("CDE9012", "55667788990", "Kia Sorento", 2018,
+		  this.protocol.Cadastrar(new Veiculo("CDE9012", "55667788995", "Kia Sorento", 2018,
 		  new Condutor("Noah", "56789012345")));
 		  this.protocol.Cadastrar(new Veiculo("FGH2345", "66778899001", "Ford Expedition",
 		  2017, new Condutor("Oliveira", "67890123456")));
