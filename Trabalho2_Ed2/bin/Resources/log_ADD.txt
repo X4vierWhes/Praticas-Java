@@ -307,7 +307,7 @@ CPF: 45678901234
 -----------------------------------------------------------
 Veículo ADICIONADO:
 Placa: YZA0123
-Renavam: 55667788990
+Renavam: 55667788997
 Modelo: Hyundai Tucson
 Ano: 2015
 Nome: Nathan
@@ -397,7 +397,7 @@ CPF: 45678901234
 -----------------------------------------------------------
 Veículo ADICIONADO:
 Placa: CDE9012
-Renavam: 55667788990
+Renavam: 55667788995
 Modelo: Kia Sorento
 Ano: 2018
 Nome: Noah
@@ -450,19 +450,19 @@ CPF: 01234567890
 -----------------------------------------------------------
 -----------------------------------------------------------
 Veículo ADICIONADO:
-Placa: ABCDEF
-Renavam: 70
+Placa: ABC
+Renavam: 9989571
 Modelo: BMW
 Ano: 2024
 Nome: Calleri
-CPF: 01010101
+CPF: 134
 -----------------------------------------------------------
 -----------------------------------------------------------
 Veículo ADICIONADO:
-Placa: ABC
-Renavam: 71
-Modelo: KWID
-Ano: 2020
-Nome: Lucas
-CPF: 12345678
+Placa: ABCV
+Renavam: 41854541570
+Modelo: Celta
+Ano: 2007
+Nome: Rafinha
+CPF: 258
 -----------------------------------------------------------
