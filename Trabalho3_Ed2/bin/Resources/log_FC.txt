@@ -1,0 +1,4 @@
+Fator de Carga Atual: 0.0
+Fator de Carga Atual: 0.005025125628140704
+Fator de Carga Atual: 0.010050251256281407
+Fator de Carga Atual: 0.01507537688442211
