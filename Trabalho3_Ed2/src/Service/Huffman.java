@@ -8,10 +8,10 @@ public class Huffman {
     Map<Character, String> Codificacao = new HashMap<>();
     Map<String, Character> Decodificacao = new HashMap<>();
     
-    public String comprimir(String comprimir) {
+    public String comprimir(String entrada) {
     	HashMap<Character, Integer> freqs = new HashMap<>();
     	
-    	for(char a : comprimir.toCharArray()) { //Extraindo as frequencias e colocando num hash map
+    	for(char a : entrada.toCharArray()) { //Extraindo as frequencias e colocando num hash map
     		freqs.put(a, freqs.getOrDefault(a, 0) + 1);
     	}
     	
@@ -27,7 +27,7 @@ public class Huffman {
     	
     	StringBuilder compress = new StringBuilder();
     	
-    	for(char c : comprimir.toCharArray()) {
+    	for(char c : entrada.toCharArray()) {
     		compress.append(Codificacao.get(c));
     	}
 		return compress.toString();
@@ -35,11 +35,11 @@ public class Huffman {
     }
     
     private void gerarCodigos(HuffmanNode root, String cod, HashMap<Character, String> codes) {
-		if(root == null) {
+		if(root == null) { //Se for nula, somente retorna
 			return;
 		}
 		
-		if (root.data != '\0') {
+		if (root.data != '\0') { 
 			Codificacao.put(root.data, cod);
         }
 		
@@ -47,10 +47,45 @@ public class Huffman {
 		gerarCodigos(root.getRight(), cod + "1", codes);
 	}
 
-	public String descomprimir(String descomprimir) {
-		return descomprimir;
+	public String descomprimir(String comprimido) {
+		
+		StringBuilder descompress = new StringBuilder();
+		StringBuilder currentCode = new StringBuilder();
+		
+		for(char bit : comprimido.toCharArray()) {
+			currentCode.append(bit);
+			
+			for(char key : Codificacao.keySet()) {
+				if(Codificacao.get(key).equals(currentCode.toString())) {
+					descompress.append(key);
+					currentCode.setLength(0);
+				}
+			}
+		}
+		
+		return descompress.toString();
     	
     }
+	
+	/*public String descomprimir(String comprimido) {
+		
+		StringBuilder descompress = new StringBuilder();
+		StringBuilder currentCode = new StringBuilder();
+		
+		for(char bit : comprimido.toCharArray()) {
+			currentCode.append(bit);
+			
+			for(char key : Codificacao.keySet()) {
+				if(Codificacao.get(key).equals(currentCode.toString())) {
+					descompress.append(key);
+					currentCode.setLength(0);
+				}
+			}
+		}
+		
+		return descompress.toString();
+    	
+    }*/
     
     public HuffmanNode construir(PriorityQueue<HuffmanNode> pq) {
     	while(pq.size() > 1) {
@@ -66,10 +101,6 @@ public class Huffman {
     	}
 		return pq.poll();
     	
-    }
-    
-    void criarTabelaDeCodigos(HuffmanNode node, String codigo) {
-   
     }
     
 }

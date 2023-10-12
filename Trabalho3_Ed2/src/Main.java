@@ -18,7 +18,19 @@ public class Main {
 		System.out.println(12345678901l%199);*/
 		
 		System.out.println("Deseja utilizar enderaçamento ABERTO(1) ou EXTERIOR(2): ");
-		int enderecamento = cin.nextInt();
+		int enderecamento = 0;
+		while(true) {
+			try {
+				enderecamento = cin.nextInt();
+				cin.nextLine();
+				break;
+			} catch (InputMismatchException e) {
+				System.out.println("Erro: O valor inserido não é um número inteiro válido.");
+				cin.nextLine();
+				continue;
+			}
+		}
+		
 		Arquivo.clear();
 		System.out.println();
 		switch(enderecamento) {
@@ -28,10 +40,14 @@ public class Main {
 		}
 		
 		//System.out.println(12345678901l%100);
-		//client.Init();
-		client.Cadastrar(new Veiculo("ABC1234", "12345678901", "Ford Ka", 2007, new Condutor("Whesley", "11111111111")));
-		client.Cadastrar(new Veiculo("DEF5678", "12345678901", "Toyota Corolla", 2015, new Condutor("Ana", "22222222222")));
-		client.Cadastrar(new Veiculo("GHI9012", "12345678901", "Honda Civic", 2010, new Condutor("Carlos", "33333333333")));
+		if(flag) {
+			//client.Init();
+			client.Cadastrar(new Veiculo("ABC1234", "12345678901", "Ford Ka", 2007, new Condutor("Whesley", "11111111111")));
+			client.Cadastrar(new Veiculo("DEF5678", "12345678901", "Toyota Corolla", 2015, new Condutor("Ana", "22222222222")));
+			client.Cadastrar(new Veiculo("GHI9012", "12345678901", "Honda Civic", 2010, new Condutor("Carlos", "33333333333")));
+		}else {
+			System.out.println("Encerrando.");
+		}
 
 		
 

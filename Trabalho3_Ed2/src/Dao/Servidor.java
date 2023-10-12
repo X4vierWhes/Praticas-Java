@@ -2,7 +2,9 @@ package Dao;
 
 import java.util.Scanner;
 
+import Entity.Condutor;
 import Entity.Veiculo;
+import Service.Huffman;
 
 public class Servidor {
 	Hash root;
@@ -17,27 +19,42 @@ public class Servidor {
 		root.Insert(cadastro);
 	}
 	
+	public void Cadastrar(String codificado, Huffman huff) {
+		String decodificado = huff.descomprimir(codificado);
+		System.out.println("Decodificado: " + decodificado);
+		System.out.println();
+		
+		String[] veiculoS = decodificado.split("#");
+		//String placa, String renavam, String modelo, int fabricacao, Condutor condutor
+		Veiculo sign = new Veiculo(veiculoS[2], veiculoS[5], veiculoS[3], Integer.parseInt(veiculoS[4]), new Condutor(veiculoS[0], veiculoS[1]));
+		this.Cadastrar(sign);
+		//for(String a : veiculoS) {
+			//System.out.println(a);
+		//}
+		//System.out.println();
+	}
+	
 	public void Remover(String placa, long chave) {
 		Veiculo remover = this.Buscar(placa, chave);
 		boolean flag = ((remover != null) ? true: false);
 		if(flag) {
 			System.out.println(remover.toString());
 			
-			System.out.println("Tem certeza que deseja remover? (S/N)");
+			System.out.println("Tem certeza que deseja REMOVER? (S/N)");
 			String escolha = cin.next();
 			
 			switch(escolha) {
 			case "s": 
 			case "S":
-				System.out.println("removido.");
+				System.out.println("Removido.");
 				root.Remove(placa, chave);
 				break;
 			case "n":
-			case "N": System.out.println("Naõ removido.");
+			case "N": System.out.println("Não Removido.");
 				break;
 			}
 		}else {
-			System.out.println("Naõ encontrado.");
+			System.out.println("Não encontrado.");
 		}
 	}
 	

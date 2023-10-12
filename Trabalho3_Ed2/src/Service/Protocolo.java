@@ -11,18 +11,16 @@ public class Protocolo {
 
 	public Protocolo(int tam, boolean adress) {
 		server = new Servidor(tam, adress);
-		huff = new Huffman();
+		
 	}
 
 	public void Cadastrar(Veiculo cadastro) {
-		server.Cadastrar(cadastro);
+		huff = new Huffman();
 		String tostring = cadastro.toString(1);
 		System.out.println("Entrada: " + tostring);
 		String codificado = huff.comprimir(tostring);
 		System.out.println("Codificado: " + codificado);
-		String decodificado = huff.descomprimir(codificado);
-		System.out.println("Descodificado: " + decodificado);
-		System.out.println();
+		server.Cadastrar(codificado, huff);
 		
 		
 		

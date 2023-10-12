@@ -135,7 +135,7 @@ public class Veiculo {
 	public String toString(int i) {
 		return getCondutor().getName() + "#" + getCondutor().getCpf() + "#" +
 				 getPlaca() + "#" + getModelo() + "#" + getFabricacao() + "#" +
-				getRenavam() + "#";
+				getRenavam();
 	}
 	
 	
