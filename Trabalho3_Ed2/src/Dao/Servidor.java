@@ -21,8 +21,8 @@ public class Servidor {
 	
 	public void Cadastrar(String codificado, Huffman huff) {
 		String decodificado = huff.descomprimir(codificado);
-		System.out.println("Decodificado: " + decodificado);
-		System.out.println();
+		//System.out.println("Decodificado: " + decodificado);
+		//System.out.println();
 		
 		String[] veiculoS = decodificado.split("#");
 		//String placa, String renavam, String modelo, int fabricacao, Condutor condutor
@@ -58,9 +58,26 @@ public class Servidor {
 		}
 	}
 	
+	public void Remover(String codificado, Huffman huff) {
+		String decodificado = huff.descomprimir(codificado);
+		
+		String [] dados = decodificado.split("#");
+		
+		this.Remover(dados[0], Long.parseLong(dados[1]));
+		
+	}
+	
 	public Veiculo Buscar(String placa, long chave) {
 		return root.Search(placa ,chave);
 	}
+	
+	public Veiculo Buscar(String codificado, Huffman huff) {
+		String decodificado = huff.descomprimir(codificado);
+		
+		String [] dados = decodificado.split("#");
+		return this.Buscar(dados[0], Long.parseLong(dados[1]));
+	}
+
 	
 	public boolean Editar(String placa, long chave) {
 		if(root.Edit(placa, chave)) {
@@ -74,7 +91,6 @@ public class Servidor {
 	}
 
 	public int Quantidade() {
-		
 		return root.Amount();
 	}
 	
@@ -86,5 +102,8 @@ public class Servidor {
 		System.out.println("Servidor desconectado do sistema.");
 		
 	}
+
+
+
 
 }

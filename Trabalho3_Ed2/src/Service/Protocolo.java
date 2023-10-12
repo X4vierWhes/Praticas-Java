@@ -17,9 +17,9 @@ public class Protocolo {
 	public void Cadastrar(Veiculo cadastro) {
 		huff = new Huffman();
 		String tostring = cadastro.toString(1);
-		System.out.println("Entrada: " + tostring);
+		//System.out.println("Entrada: " + tostring);
 		String codificado = huff.comprimir(tostring);
-		System.out.println("Codificado: " + codificado);
+		//System.out.println("Codificado: " + codificado);
 		server.Cadastrar(codificado, huff);
 		
 		
@@ -27,11 +27,17 @@ public class Protocolo {
 	}
 
 	public void Remover(String placa, long chave) {
-		server.Remover(placa, chave);
+		huff = new Huffman();
+		String tostring = placa + "#" + chave;
+		String codificado = huff.comprimir(tostring);
+		server.Remover(codificado, huff);
 	}
 	
 	public Veiculo Buscar(String placa, long chave) {
-		return server.Buscar(placa ,chave);
+		huff = new Huffman();
+		String tostring = placa + "#" + chave;
+		String codificado = huff.comprimir(tostring);
+		return server.Buscar(codificado, huff);
 	}
 	
 	public boolean Editar(String placa, long chave) {
