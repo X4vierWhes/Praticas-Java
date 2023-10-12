@@ -61,8 +61,8 @@ public class Servidor {
 		return root.Amount();
 	}
 	
-	public void Printar(int index) {
-		root.PrintVector(index);
+	public void Printar(long keyPrintar) {
+		root.PrintVector(keyPrintar);
 	}
 
 }

@@ -59,7 +59,7 @@ public class Protocolo {
 		return server.Quantidade();
 	}
 	
-	public void Printar(int index) {
-		server.Printar(index);
+	public void Printar(long keyPrintar) {
+		server.Printar(keyPrintar);
 	}
 }

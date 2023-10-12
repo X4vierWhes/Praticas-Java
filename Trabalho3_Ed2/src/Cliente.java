@@ -35,8 +35,8 @@ public class Cliente {
 		return protocol.Quantidade();
 	}
 	
-	public void Printar(int index) {
-		protocol.Printar(index);
+	public void Printar(long keyPrintar) {
+		protocol.Printar(keyPrintar);
 	}
 
 	public void Init() {

@@ -160,7 +160,17 @@ public class Main {
 					break;
 					
 				case 8:
-					client.Printar(cin.nextInt());
+					System.out.println("Renavam: ");
+					String renavamPrintar = cin.next();
+					long keyPrintar = 0;
+					try {
+						 keyPrintar = Long.parseLong(renavamPrintar);
+					}catch(NumberFormatException e) {
+						System.out.println("erro: Renavam invalido, tente novamente");
+						continue;
+					}
+					
+					client.Printar(keyPrintar);
 					break;
 				default:
 					System.out.println("Por favor digite um numero valido.");

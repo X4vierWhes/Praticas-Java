@@ -74,7 +74,6 @@ public class Hash {
 	public void Insert(Veiculo inserir) {
 		//////////////////////////////////////////////////////////////////////////
 		//Calculando index que o veiculo será inserido
-		//int index = (int) (Math.abs(inserir.getChave())%100);
 		int index = (int) (Math.abs(inserir.getChave())%this.tam);
 		
 		/////////////////////////////////////////////////////////////////////////
@@ -118,7 +117,6 @@ public class Hash {
 	        } else if (root.getNext() == null) {
 	            Node newNode = new Node(cadastrar);
 	            root.setNext(newNode); // Define o próximo nó como o novo nó com o veículo
-	            root.getNext().setPrev(root); //Seta no atual como prev do proximo No
 	            this.elementos++;
 	            Arquivo.logADD(cadastrar);
 	            Arquivo.logFc(this.calcFc());
@@ -135,7 +133,6 @@ public class Hash {
 	public void Remove(String placa, long key) {
 		//////////////////////////////////////////////////////////////////////////
 		//Calculando index que o veiculo será removido
-		//int index = (int)(key%100);
 		int index = (int)(key%this.tam);
 		
 		//////////////////////////////////////////////////////////////////////////
@@ -154,44 +151,30 @@ public class Hash {
 	    if (root == null) {
 	        return; // A lista está vazia, nada para remover
 	    }
-
+	    Veiculo copia = root.getValor();
+	    Node prevNode = null;
 	    Node currentNode = root;
-
+	    
 	    while (currentNode != null) {
 	        if (currentNode.getValor() != null && currentNode.getValor().getPlaca().equals(placa)) {
-	        	
-	            if (currentNode.getPrev() == null && currentNode.getNext() != null) { //Nao possui prev e possui prev. No raiz
-	                currentNode.getNext().setPrev(null); //Setando prev do next como null
-	                currentNode = currentNode.getNext(); //Apontando para o next atualizado
-	                root = currentNode;
-	            } else if (currentNode.getPrev() != null && currentNode.getNext() == null) { //Possui prev e nao possui next. Ultimo elemento.
-	                currentNode.getPrev().setNext(null); //Setando next do prev como null
-	                currentNode = currentNode.getPrev(); //apontando para o prev atualizado
-	                root = currentNode;
-	            } else if (currentNode.getPrev() != null && currentNode.getNext() != null) { //Possui ambos. No do meio.
-	                Node prevNode = currentNode.getPrev();
-	                Node nextNode = currentNode.getNext();
-
-	                prevNode.setNext(nextNode);
-	                nextNode.setPrev(prevNode);
-	                currentNode = prevNode;
+	            if (prevNode == null) {
+	                // Remover o primeiro nó da lista
+	                root.setValor(null);
+	            } else {
+	                // Remover um nó no meio ou no final da lista
+	                prevNode.setNext(currentNode.getNext());
 	            }
-
 	            this.elementos--;
-	            Arquivo.logREMOVE(currentNode.getValor());
+	            Arquivo.logREMOVE(copia);
 	            Arquivo.logFc(this.calcFc());
+	            return; // Veículo removido com sucesso
 	        }
-
-	        // Passa para o próximo nó
+	        prevNode = currentNode;
 	        currentNode = currentNode.getNext();
 	    }
 	}
 
-
-
 	private void OpenRemove(Node[] root, long key, String placa) {
-		
-	    //int index = (int) (key % 100);
 	    int index = (int) (key % this.tam);
 	    if (index < 0) {
 	        return; // Índice negativo, saia da função
@@ -226,9 +209,7 @@ public class Hash {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	//Funções de Edição
 	public boolean Edit(String placa, long chave) {
-		
-		//int index = (int) (chave%100);
-		int index = (int) (chave%this.tam);
+		int index = (int) (chave%100);
 		if(openAdress) {
 			if(this.OpenEdit(this.root, placa, index)) {
 				return true;
@@ -302,8 +283,6 @@ public class Hash {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	//Funções de Buscar	
 	public Veiculo Search(String placa, long key) {
-		
-	    //int index = (int)(key%100);
 	    int index = (int)(key%this.tam);
 	    Veiculo encontrado = null;
 	    if (openAdress) { // Buscar por endereçamento aberto
@@ -314,7 +293,7 @@ public class Hash {
 	           return null;
 	        }
 	    } else { // Buscar por endereçamento fechado
-	    	 encontrado = this.ClosedSearch(root[index], placa);
+	    	 encontrado = this.ClosedSearch(root[index], placa, index);
 		        if (encontrado != null) {
 		            return encontrado;
 		        } else {
@@ -322,37 +301,40 @@ public class Hash {
 		        }
 	    }
 	}
-
 	
-	private Veiculo ClosedSearch(Node root, String placa) {
-	    Node prevNode = null;
-	    Node currentNode = root;
-	    Veiculo encontrado = null;
-
-	    while (currentNode != null) {
-	        if (currentNode.getValor() != null && currentNode.getValor().getPlaca().equals(placa)) {
-	            // Encontrou o veículo a ser procurado
-	            encontrado = currentNode.getValor();
-	            if (prevNode != null) {
-	                // Move o nó encontrado para a esquerda da lista
-	                prevNode.setNext(currentNode.getNext());
-	                currentNode.setNext(root);
-	                root = currentNode;
+	
+	private Veiculo ClosedSearch(Node root, String placa, int index) {
+		boolean flag = true;
+		Node prev = null;
+		while(flag) {
+			if (index >= 0 && index < this.tam && root != null && root.getValor() != null) {
+	            if (root.getValor().getPlaca().equals(placa)) {
+	            	Veiculo encontrado = root.getValor();
+	            	Node no = this.root[index];
+	            	while(no != null) {
+	            		if(no.getValor().getPlaca().equals(placa)) {
+	            			if(prev != null) {
+	            				prev.setNext(no.getNext());
+	            				no.setNext(this.root[index]);
+	            				this.root[index] = no;
+	            			}
+	            		}
+	            		
+	            		prev = no;
+	            		no = no.getNext();
+	            	}
+	            	
+	                return encontrado; // Retorna o valor encontrado
+	            } else {
+	            	prev = root;
+	                root = root.getNext();
 	            }
-	            break; // Encontrou o veículo, então saia do loop
+	        } else {
+	            flag = false; // Não encontrou o elemento, pode sair do loop
 	        }
-
-	        prevNode = currentNode;
-	        currentNode = currentNode.getNext();
-	    }
-
-	    return encontrado; // Retorna o valor encontrado, ou null se não encontrado
+		}
+		return null;
 	}
-
-
-
-
-
 
 
 	private Veiculo OpenSearch(Node[] root, String placa, int index) {
@@ -374,7 +356,7 @@ public class Hash {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	//Funções de listagem
 	public void List() {
-	    System.out.println(this.tam + " - " + this.elementos);
+	    //System.out.println(this.tam + " - " + this.elementos);
 	    if (openAdress) {
 	        if (elementos != 0) {
 	            for (int i = 0; i < this.tam; i++) {
@@ -387,18 +369,19 @@ public class Hash {
 	        }
 	    } else {
 	    	// Lógica para endereçamento exterior/Fechado
+	    	
+	    	System.out.println("-------------------------------------------");
 	        for (int i = 0; i < this.tam; i++) {
 	            Node currentNode = root[i];
 	            while (currentNode != null) {
 	                if (currentNode.getValor() != null) {
-	                    System.out.println(currentNode.toString());
+	                    System.out.println(currentNode.getValor().toString());
 	                }
 	                currentNode = currentNode.getNext();
 	            }
 	        }
 	    }
 	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	//Funções de suporte
 	// Função para verificar se um número é primo
@@ -427,7 +410,8 @@ public class Hash {
 		return this.elementos;
 	}
 	
-	public void PrintVector(int index) {
+	public void PrintVector(long keyPrintar) {
+		int index = (int) (keyPrintar % this.tam);
 	    if (index < 0 || index >= tam) {
 	        System.out.println("Índice inválido");
 	        return;
