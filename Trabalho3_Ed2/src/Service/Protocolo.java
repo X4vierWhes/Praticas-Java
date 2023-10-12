@@ -17,7 +17,13 @@ public class Protocolo {
 	public void Cadastrar(Veiculo cadastro) {
 		server.Cadastrar(cadastro);
 		String tostring = cadastro.toString(1);
-		System.out.println(tostring);
+		System.out.println("Entrada: " + tostring);
+		String codificado = huff.comprimir(tostring);
+		System.out.println("Codificado: " + codificado);
+		String decodificado = huff.descomprimir(codificado);
+		System.out.println("Descodificado: " + decodificado);
+		System.out.println();
+		
 		
 		
 	}

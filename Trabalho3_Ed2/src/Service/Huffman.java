@@ -21,13 +21,33 @@ public class Huffman {
     		priority.add(new HuffmanNode(key, freqs.get(key)));
     	}
     	
-    	HuffmanNode root = construir(priority);
+    	HuffmanNode root = construir(priority); //Criando arvore de Huffman
+    	HashMap<Character, String> codes = new HashMap<>();
+    	gerarCodigos(root, "", codes);
     	
-		return comprimir;
+    	StringBuilder compress = new StringBuilder();
+    	
+    	for(char c : comprimir.toCharArray()) {
+    		compress.append(Codificacao.get(c));
+    	}
+		return compress.toString();
     	
     }
     
-    public String descomprimir(String descomprimir) {
+    private void gerarCodigos(HuffmanNode root, String cod, HashMap<Character, String> codes) {
+		if(root == null) {
+			return;
+		}
+		
+		if (root.data != '\0') {
+			Codificacao.put(root.data, cod);
+        }
+		
+		gerarCodigos(root.getLeft(), cod + "0", codes);
+		gerarCodigos(root.getRight(), cod + "1", codes);
+	}
+
+	public String descomprimir(String descomprimir) {
 		return descomprimir;
     	
     }
@@ -36,6 +56,13 @@ public class Huffman {
     	while(pq.size() > 1) {
     		HuffmanNode left = pq.poll(); //Primeira menor frenquencia vai para a esquerda
     		HuffmanNode right = pq.poll(); //Segunda menor frequencia vai para a direita
+    		
+    		HuffmanNode mergedNode = new HuffmanNode('\0', left.frequency + right.frequency);
+    		
+    		mergedNode.setLeft(left);
+    		mergedNode.setRight(right);
+    		
+    		pq.add(mergedNode);
     	}
 		return pq.poll();
     	

@@ -20,6 +20,7 @@ public class Main {
 		System.out.println("Deseja utilizar enderaçamento ABERTO(1) ou EXTERIOR(2): ");
 		int enderecamento = cin.nextInt();
 		Arquivo.clear();
+		System.out.println();
 		switch(enderecamento) {
 			case 1: client = new Cliente(tam, true); break; //Aberto
 			case 2: client = new Cliente(tam, false); break; //Fechado
