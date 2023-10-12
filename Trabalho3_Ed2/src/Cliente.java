@@ -144,4 +144,10 @@ public class Cliente {
 		 
 	}
 
+	public void Encerrar() {
+		protocol.Encerrar();
+		System.out.println("Cliente encerrado.");
+		
+	}
+
 }

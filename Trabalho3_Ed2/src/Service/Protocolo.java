@@ -6,14 +6,20 @@ import java.util.Scanner;
 
 public class Protocolo {
 	Servidor server;
+	Huffman huff;
 	
 
 	public Protocolo(int tam, boolean adress) {
 		server = new Servidor(tam, adress);
+		huff = new Huffman();
 	}
 
 	public void Cadastrar(Veiculo cadastro) {
 		server.Cadastrar(cadastro);
+		String tostring = cadastro.toString(1);
+		System.out.println(tostring);
+		
+		
 	}
 
 	public void Remover(String placa, long chave) {
@@ -61,5 +67,11 @@ public class Protocolo {
 	
 	public void Printar(long keyPrintar) {
 		server.Printar(keyPrintar);
+	}
+
+	public void Encerrar() {
+		server.Encerrar();
+		System.out.println("Protocolo encerrado.");
+		
 	}
 }

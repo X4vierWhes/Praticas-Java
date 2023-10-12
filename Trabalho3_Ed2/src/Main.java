@@ -156,6 +156,7 @@ public class Main {
 					break;
 				// Sair
 				case 7:
+					client.Encerrar();
 					flag = false;
 					break;
 					

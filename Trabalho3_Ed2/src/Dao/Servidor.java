@@ -65,4 +65,9 @@ public class Servidor {
 		root.PrintVector(keyPrintar);
 	}
 
+	public void Encerrar() {
+		System.out.println("Servidor desconectado do sistema.");
+		
+	}
+
 }

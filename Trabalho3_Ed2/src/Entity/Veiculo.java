@@ -132,6 +132,12 @@ public class Veiculo {
 		this.condutor.setCpf(cpf);
 	}
 	
+	public String toString(int i) {
+		return getCondutor().getName() + "#" + getCondutor().getCpf() + "#" +
+				 getPlaca() + "#" + getModelo() + "#" + getFabricacao() + "#" +
+				getRenavam() + "#";
+	}
+	
 	
 	public String toString() {
 		//"Index: " + (getChave()%100) + " \n" + 
