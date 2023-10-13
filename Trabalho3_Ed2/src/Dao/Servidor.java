@@ -79,10 +79,48 @@ public class Servidor {
 	}
 
 	
-	public boolean Editar(String placa, long chave) {
+	private boolean Editar(String placa, long chave, int a) {
 		if(root.Edit(placa, chave)) {
 			return true;
 		}
+		return false;
+	}
+	
+	public boolean Editar(String placa, long chave) {
+		
+		Veiculo editar = Buscar(placa, chave);
+		
+		if(editar != null) {
+			System.out.println(editar.toString());
+			System.out.println("Deseja editar? (S/N)");
+			Scanner cin = new Scanner(System.in);
+			String escolha = cin.next();
+			//cin.next();
+			switch(escolha) {
+			case "n":
+			case "N": 
+				break;
+			case "s":
+			case "S": 
+				return this.Editar(placa, chave, 0);
+				
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean Editar(String codificado, Huffman huff) {
+		String decodificado = huff.descomprimir(codificado);
+		String [] dados = decodificado.split("#");
+		
+		String placa = dados[0];
+		long chave = Long.parseLong(dados[1]);
+		
+		if(this.Editar(placa, chave)) {
+			return true;
+		}
+		
 		return false;
 	}
 	

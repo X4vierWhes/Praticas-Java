@@ -41,30 +41,13 @@ public class Protocolo {
 	}
 	
 	public boolean Editar(String placa, long chave) {
-		Veiculo editar = Buscar(placa, chave);
-		
-		if(editar != null) {
-			System.out.println(editar.toString());
-			System.out.println("Deseja editar? (S/N)");
-			Scanner cin = new Scanner(System.in);
-			String escolha = cin.next();
-			
-			switch(escolha) {
-			case "n":
-			case "N": 
-				break;
-			case "s":
-			case "S": 
-				return server.Editar(placa, chave);
-			
-			}
-			
-			
+		huff = new Huffman();
+		String tostring = placa + "#" + chave;
+		String codificado = huff.comprimir(tostring);
+		if(server.Editar(codificado, huff)) {
+			return true;
 		}
-		
-		return false;
-		
-		
+		return false;	
 	}
 	
 	public void Listar() {
