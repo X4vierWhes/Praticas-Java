@@ -49,4 +49,3 @@ Fator de Carga Atual: 0.23618090452261306
 Fator de Carga Atual: 0.24120603015075376
 Fator de Carga Atual: 0.24623115577889448
 Fator de Carga Atual: 0.25125628140703515
-Fator de Carga Atual: 0.24623115577889448

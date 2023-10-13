@@ -18,7 +18,8 @@ public class Main {
 		System.out.println(12345678901l%199);*/
 		
 		System.out.println("Deseja utilizar enderaçamento ABERTO(1) ou EXTERIOR(2): ");
-		int enderecamento = 0;
+		int enderecamento = cin.nextInt();
+		/*int enderecamento = 0;
 		while(true) {
 			try {
 				enderecamento = cin.nextInt();
@@ -29,7 +30,7 @@ public class Main {
 				cin.nextLine();
 				continue;
 			}
-		}
+		}*/
 		
 		Arquivo.clear();
 		System.out.println();

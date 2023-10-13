@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class Protocolo {
 	Servidor server;
 	Huffman huff;
+	private Scanner cin = new Scanner(System.in);
 	
 
 	public Protocolo(int tam, boolean adress) {
@@ -37,17 +38,30 @@ public class Protocolo {
 		huff = new Huffman();
 		String tostring = placa + "#" + chave;
 		String codificado = huff.comprimir(tostring);
+		//return server.Buscar(placa, chave);
 		return server.Buscar(codificado, huff);
 	}
 	
 	public boolean Editar(String placa, long chave) {
-		huff = new Huffman();
-		String tostring = placa + "#" + chave;
-		String codificado = huff.comprimir(tostring);
-		if(server.Editar(codificado, huff)) {
-			return true;
+		Veiculo editar = Buscar(placa, chave);
+		
+		if(editar != null) {
+			System.out.println(editar.toString());
+			System.out.println("Deseja editar? (S/N)");
+			String escolha = cin.next();
+			
+			switch(escolha) {
+			case "n":
+			case "N": 
+				break;
+			case "s":
+			case "S": 
+				return server.Editar(placa, chave);
+				
+			}
 		}
-		return false;	
+		
+		return false;
 	}
 	
 	public void Listar() {
@@ -65,6 +79,7 @@ public class Protocolo {
 	public void Encerrar() {
 		server.Encerrar();
 		System.out.println("Protocolo encerrado.");
+		cin.close();
 		
 	}
 }

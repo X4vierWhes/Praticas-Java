@@ -209,7 +209,7 @@ public class Hash {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	//Funções de Edição
 	public boolean Edit(String placa, long chave) {
-		int index = (int) (chave%100);
+		int index = (int) (chave%this.tam);
 		if(openAdress) {
 			if(this.OpenEdit(this.root, placa, index)) {
 				return true;
