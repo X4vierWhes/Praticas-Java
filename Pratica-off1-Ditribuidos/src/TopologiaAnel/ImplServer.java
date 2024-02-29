@@ -36,5 +36,13 @@ public class ImplServer implements Runnable{
         }
     }
 
+    public void sendMsgToAll(){ //Broadcast
+
+    }
+
+    public void sendMsgToOne(){ //Unicast
+
+    }
+
 
 }

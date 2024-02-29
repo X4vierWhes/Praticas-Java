@@ -14,7 +14,7 @@ public class ClientSocket implements Closeable { //Implementando closeable para 
 
     private InetAddress inet;
 
-    private String login; //Nome do usuario;
+    public String login; //Nome do usuario;
 
     private final BufferedReader cin; //Ler mensagens do enviadas ou recebidas do cliente;
 

@@ -55,7 +55,7 @@ public class Server{
                         "/" +
                         clientSocket.getHostName()
                 );
-                clientSocket.setLogin(msg);
+                clientSocket.login = msg;
                 System.out.print(" Conectado como -> " + clientSocket.getLogin());
                 System.out.println();
             }
