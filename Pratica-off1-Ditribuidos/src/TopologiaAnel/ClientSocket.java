@@ -8,11 +8,11 @@ import java.net.Socket;
 public class ClientSocket implements Closeable { //Implementando closeable para fazer o proprio socket;
     private final Socket socket; //Socket padrão;
 
-    private String ip;
+    private String ip; //Host
 
-    private int port;
+    private final int port; //Porta de conexao
 
-    private InetAddress inet;
+    private final InetAddress inet;
 
     public String login; //Nome do usuario;
 

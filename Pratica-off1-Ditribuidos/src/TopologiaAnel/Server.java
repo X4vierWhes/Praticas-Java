@@ -3,6 +3,7 @@ package TopologiaAnel;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Server{
 
@@ -69,6 +70,10 @@ public class Server{
     }
 
     public static void main(String[] args) {
-        new Server(4000);
+        new Server((1%4)*1111 + 1111);
+        //new Server((2%4)*1111 + 1111);
+        //new Server((3%4)*1111 + 1111);
+        //new Server((4%4)*1111 + 1111);
+
     }
 }
