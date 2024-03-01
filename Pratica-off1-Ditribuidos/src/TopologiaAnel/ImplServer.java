@@ -60,13 +60,13 @@ public class ImplServer implements Runnable{
 
     public void sendMsgToAll(String msg, ClientSocket remetente) throws IOException { //Broadcast
         int portRemetente = (remetente.getPort() /1111) - 1;
-        System.out.println("Numero da porta remetente: " + portRemetente);
-        System.out.println("Host do remetente: " + remetente.getHostAddress());
+        //System.out.println("Numero da porta remetente: " + portRemetente);
+        //System.out.println("Host do remetente: " + remetente.getHostAddress());
         //Ideia é andar em sentido horario enviando a mensagem ate chegar novamente no remetente
 
-        String host = remetente.getHostAddress();
+        //String host = remetente.getHostAddress();
         int portNext = portRemetente + 1;
-        System.out.println("PortNext:" + portNext);
+        //System.out.println("PortNext:" + portNext);
         int portsocket = (portNext%4)*1111 + 1111;
         System.out.println("PortSocket next: " + portsocket);
         ClientSocket next = new ClientSocket(new Socket("127.0.0.1", portsocket));
