@@ -42,16 +42,10 @@ public class Client{
     }
 
     public static void main(String[] args) {
-        new Client("127.0.0.1", (1%4)*1111 + 1111);
-        //new Client("127.0.0.2", (2%4)*1111 + 1111);
-        //new Client("127.0.0.3", (3%4)*1111 + 1111);
-        //new Client("127.0.0.4", (4%4)*1111 + 1111);
-
-
-        //System.out.println((1 % 4) * 1111 + 1111); 2222
-        //System.out.println((2 % 4) * 1111 + 1111); 3333
-        //System.out.println((3 % 4) * 1111 + 1111); 4444
-        //System.out.println((4 % 4) * 1111 + 1111); 5555
+        //new Client("127.0.0.1", (1%4)*1111 + 1111); //2222
+        new Client("127.0.0.1", (2%4)*1111 + 1111); //3333
+        //new Client("127.0.0.1", (3%4)*1111 + 1111); //4444
+        //new Client("127.0.0.1", (4%4)*1111 + 1111); //1111
 
     }
 

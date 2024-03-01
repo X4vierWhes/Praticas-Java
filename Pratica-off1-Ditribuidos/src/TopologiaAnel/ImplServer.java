@@ -33,9 +33,13 @@ public class ImplServer implements Runnable{
                         " -> " + msg);
 
                 if(destinationToAll(msg)){ //Funçao que verifica se alguem foi mencionado no inicio da mensagem
-                    this.sendMsgToAll(msg, clientSocket);
+                    try {
+                        this.sendMsgToAll(msg, clientSocket); //Enviar mensagens para todos;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }else{
-                    this.sendMsgToOne(msg, clientSocket);
+                    this.sendMsgToOne(msg, clientSocket); //Enviar mensagens so para uma pessoa;
                 }
             }else{
                 connect = false;
@@ -54,11 +58,28 @@ public class ImplServer implements Runnable{
 
 
 
-    public void sendMsgToAll(String msg, ClientSocket remetente){ //Broadcast
-        int port = (remetente.getPort() /1111) - 1;
-        System.out.println("Numero da porta: " + port);
-        System.out.println("Host: " + remetente.getHostAddress());
-        //while()
+    public void sendMsgToAll(String msg, ClientSocket remetente) throws IOException { //Broadcast
+        int portRemetente = (remetente.getPort() /1111) - 1;
+        System.out.println("Numero da porta remetente: " + portRemetente);
+        System.out.println("Host do remetente: " + remetente.getHostAddress());
+        //Ideia é andar em sentido horario enviando a mensagem ate chegar novamente no remetente
+
+        String host = remetente.getHostAddress();
+        int portNext = portRemetente + 1;
+        System.out.println("PortNext:" + portNext);
+        int portsocket = (portNext%4)*1111 + 1111;
+        System.out.println("PortSocket next: " + portsocket);
+        ClientSocket next = new ClientSocket(new Socket("127.0.0.1", portsocket));
+        //System.out.println("Porta do Destinatario: " + next.getPort());
+        //System.out.println("Host do destinatario: " + next.getHostAddress());
+        next.sendMensage("@" + clientSocket.getLogin() + ": " +msg);
+        //next.readMessage();
+        //Logica de passar pro proximo;
+        //while(true){
+
+          //  Socket next = new Socket();
+           // if()
+       // }
     }
 
     public void sendMsgToOne(String msg, ClientSocket remetente){ //Unicast

@@ -70,10 +70,34 @@ public class Server{
     }
 
     public static void main(String[] args) {
-        new Server((1%4)*1111 + 1111);
-        //new Server((2%4)*1111 + 1111);
-        //new Server((3%4)*1111 + 1111);
-        //new Server((4%4)*1111 + 1111);
+        //new Server((1%4)*1111 + 1111); //2222
+        //new Server((2%4)*1111 + 1111); //3333
+        //new Server((3%4)*1111 + 1111); //4444
+        //new Server((4%4)*1111 + 1111); //1111
 
+    }
+}
+
+class main1{
+    public static void main(String[] args) {
+        new Server((1%4)*1111 + 1111); //2222
+    }
+}
+
+class main2{
+    public static void main(String[] args) {
+        new Server((2%4)*1111 + 1111); //2222
+    }
+}
+
+class main3{
+    public static void main(String[] args) {
+        new Server((3%4)*1111 + 1111); //2222
+    }
+}
+
+class main4{
+    public static void main(String[] args) {
+        new Server((4%4)*1111 + 1111); //2222
     }
 }

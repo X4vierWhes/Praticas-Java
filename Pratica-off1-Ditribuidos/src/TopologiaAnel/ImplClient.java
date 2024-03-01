@@ -22,6 +22,9 @@ public class ImplClient implements Runnable{
 
 
         System.out.println("BEM VINDO AO GRUPO! INICIE SUA CONVERSA:");
+        System.out.println("*********COMANDOS***********");
+        System.out.println("use @ e o nome de quem deseja mandar uma mensagem privada;");
+        System.out.println("Digite FIM para desconectar do servidor.");
 
         String msg;
         Scanner teclado = new Scanner(System.in);
@@ -39,12 +42,16 @@ public class ImplClient implements Runnable{
                 connect = false;
             }
 
-
+            //new Thread(this::msgLoop).start();
         }
 
         clientSocket.close();
 
         System.out.println("Voce desconectou.");
+
+    }
+
+    private void msgLoop() {
 
     }
 }
