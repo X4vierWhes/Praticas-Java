@@ -91,10 +91,10 @@ public class StarServer{
                     for(char a : msg.toCharArray()){
                         if(a == '>'){
                             marcador = index;//Marca inicio da mensagem;
-                            index = 0;
                         }
                         index++;
                     }
+                    index = 0;
                     mensagem = msg.substring(marcador+2); //Retirando conteudo da mensagem;
                     System.out.println("Mensagem recebida de " + login + " -> " + mensagem);
                     if(mensagem.charAt(0) == '@'){ //Se primeiro caracter da mensagem for um '@', a mensagem será enviada para somente uma pessoa
@@ -125,6 +125,25 @@ public class StarServer{
     }
 
     private void unicast(String login, String mensagem) {
+        Iterator<StarSocket> iterator = clientsList.iterator(); //Usando iterator para possivel remorção da lista
+
+        String[] info = mensagem.split(" ");
+
+        String destinatario = info[0].substring(1);
+
+
+        while(iterator.hasNext()){
+            StarSocket st = iterator.next();
+
+            if(st.login.equalsIgnoreCase(destinatario)){
+                if(st.sendMsg("2 " + login + " passada pelo servidor com conteudo -> " + mensagem)){
+                    System.out.println("Mensagem unicast passada para " + destinatario + " por " + login);
+                }else{
+                    iterator.remove();
+                }
+            }
+
+        }
     }
 }
 
