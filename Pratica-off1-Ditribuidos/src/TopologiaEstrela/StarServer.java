@@ -91,9 +91,8 @@ public class StarServer{
                     for(char a : msg.toCharArray()){
                         if(a == '>'){
                             marcador = index;//Marca inicio da mensagem;
-                        }else{
-                            index++;
                         }
+                        index++;
                     }
                     mensagem = msg.substring(marcador+2); //Retirando conteudo da mensagem;
                     System.out.println("Mensagem recebida de " + login + " -> " + mensagem);

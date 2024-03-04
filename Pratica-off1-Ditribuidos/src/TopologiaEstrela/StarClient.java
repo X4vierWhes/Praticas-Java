@@ -72,9 +72,8 @@ public class StarClient implements Runnable{
                 for(char a : msg.toCharArray()){
                     if(a == '>'){
                         marcador = index;
-                    }else{
-                        index++;
                     }
+                    index++;
                 }
                 mensagem = msg.substring(marcador + 2);
                     if(!"fim".equalsIgnoreCase(mensagem)){
