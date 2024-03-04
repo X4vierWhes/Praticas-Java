@@ -52,12 +52,12 @@ public class StarServer{
 
 
                 ///////////////////////////////////////////////
-                new Thread(() -> msgLoop(st));//Iniciando thread de msgLoop
-                clientsList.add(st); //Adicionando elementos na lista de clientes do servidor;
+                new Thread(() -> msgLoop(st)).start();//Iniciando thread de msgLoop
 
-                for(StarSocket a : clientsList){
-                    System.out.println(st.login);
-                }
+                clientsList.add(st); //Adicionando elementos na lista de clientes do servidor;
+                /*for(StarSocket a : clientsList){
+                    System.out.println(a.login);
+                }*/
             }catch (SocketException e){
                 e.printStackTrace();
             }
@@ -80,7 +80,7 @@ public class StarServer{
         //(Marcador) (Remetente) REMETENTE REENVIADA POR SERVIDOR -> (MENSAGEM)
         //Servidor envia a mensagem utilizando o segundo padrão;
 
-        System.out.println("Entrou na msgloop");
+        //System.out.println("Entrou na msgloop");
 
         while(true){
             try {
@@ -111,7 +111,7 @@ public class StarServer{
 
     private void broadcast(String login, String mensagem) {
         Iterator<StarSocket> iterator = clientsList.iterator(); //Usando iterator pra possivel remorção de cliente da lista
-        System.out.println("Entrou na broadcast");
+        //System.out.println("Entrou na broadcast");
         while (iterator.hasNext()){
             StarSocket st = iterator.next();
             if(!st.login.equalsIgnoreCase(login)){
