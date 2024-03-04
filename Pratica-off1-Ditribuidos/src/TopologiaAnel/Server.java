@@ -3,17 +3,26 @@ package TopologiaAnel;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.net.Socket;
 
 public class Server{
 
     ServerSocket serverSocket;
     ClientSocket clientSocket;
 
+    String [] names = {"Whesley", "Joao", "Davi", "Kevny"};
+
     int port;
+
+    int next;
 
     public Server(int port){
         this.port = port;
+        this.run();
+    }
+
+    public Server(int port, int next){
+        this.port = port;
+        this.next = next;
         this.run();
     }
 
@@ -30,9 +39,8 @@ public class Server{
                     InetAddress.getLocalHost().getHostName());
 
             System.out.println("Aguardando conexão do cliente...");
-            String login;
 
-            this.connectionLoop(); //Entrando em loop ue conectara os clientes
+            this.connectionLoop(); //Entrando em loop que conectara os clientes
 
         } catch (IOException e) {
            e.printStackTrace();
@@ -41,63 +49,62 @@ public class Server{
 
     private void connectionLoop() throws IOException {
         //Conexão com cliente
-
-        String msg;
-
-        while(true){
+        //String msg;
 
             clientSocket = new ClientSocket(serverSocket.accept());
-            //Extraindo nome de Login;
-            if(((msg = clientSocket.readMessage()) != null) && (clientSocket.getLogin() == null) && clientSocket != null){
-                System.out.print("Conexão " +
-                        (ImplServer.cont++) +
-                        " com o cliente "+
-                        clientSocket.getHostAddress() +
-                        "/" +
-                        clientSocket.getHostName()
-                );
-                clientSocket.login = msg;
-                System.out.print(" Conectado como -> " + clientSocket.getLogin());
-                System.out.println();
+            switch (clientSocket.getLocalPort()) {
+                case 1111:
+                    clientSocket.login = names[0];
+                    clientSocket.next = 2222;
+                    break;
+                case 2222:
+                    clientSocket.login = names[1];
+                    clientSocket.next = 3333;
+                    break;
+                case 3333:
+                    clientSocket.login = names[2];
+                    clientSocket.next = 4444;
+                    break;
+                case 4444:
+                    clientSocket.login = names[3];
+                    clientSocket.next = 1111;
+                    break;
+                default: break;
+
             }
 
+            System.out.print(" Conectado como -> " + clientSocket.getLogin());
+            System.out.println();
 
             ImplServer server = new ImplServer(clientSocket);
             Thread t = new Thread(server);
             t.start();
 
-        }
-    }
-
-    public static void main(String[] args) {
-        //new Server((1%4)*1111 + 1111); //2222
-        //new Server((2%4)*1111 + 1111); //3333
-        //new Server((3%4)*1111 + 1111); //4444
-        //new Server((4%4)*1111 + 1111); //1111
-
     }
 }
 
-class main1{
+
+
+class server1{
     public static void main(String[] args) {
-        new Server((1%4)*1111 + 1111); //2222
+        new Server(2222); //2222
     }
 }
 
-class main2{
+class server2{
     public static void main(String[] args) {
-        new Server((2%4)*1111 + 1111); //2222
+        new Server(3333); //2222
     }
 }
 
-class main3{
+class server3{
     public static void main(String[] args) {
-        new Server((3%4)*1111 + 1111); //2222
+        new Server(4444); //2222
     }
 }
 
-class main4{
+class server4{
     public static void main(String[] args) {
-        new Server((4%4)*1111 + 1111); //2222
+        new Server(1111); //2222
     }
 }

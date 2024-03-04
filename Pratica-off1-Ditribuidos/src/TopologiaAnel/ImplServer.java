@@ -2,88 +2,120 @@ package TopologiaAnel;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Scanner;
+import java.util.*;
 
-public class ImplServer implements Runnable{
+public class ImplServer implements Runnable {
 
     public ClientSocket clientSocket;
-    private boolean connect = true;
 
-    public static int cont = 1;
+    public ClientSocket next;
 
     public Scanner s = null;
-    public ImplServer(ClientSocket clientSocket) {
+
+
+    public ImplServer(ClientSocket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
+        this.next = new ClientSocket(new Socket("localhost", clientSocket.next));
     }
 
     @Override
     public void run() {
-
         this.mensageLoop();
     }
 
-    public void mensageLoop(){
+    public void mensageLoop() {
         String msg;
 
-            //Servidor recebendo mensagens dos clientes
-        while(connect){
-            if( (msg = clientSocket.readMessage())  != null &&!("fim".equalsIgnoreCase(msg))){
-                System.out.println(clientSocket.getHostName() + " / " + clientSocket.getPort()  +
-                        " / " + clientSocket.getLogin() +
-                        " -> " + msg);
+        //Servidor recebendo mensagens dos clientes
+        while(true) {
+            //for(ClientSocket clientSocket : list) {
+            //Retirando informações da mensagem
+            msg = clientSocket.readMessage(); //Mensagem recebida
+            String mensagem = "";
+            String login = "";
+            String[] infMsg = msg.split(" "); //segundo elemento do vetor sera login
 
-                if(destinationToAll(msg)){ //Funçao que verifica se alguem foi mencionado no inicio da mensagem
+            if (msg != null) {
+
+                login = infMsg[1]; //login
+                //Pegando inicio da mensagem.
+                int index = 0;
+                int escolha = 0;
+                for (char i : msg.toCharArray()) {
+                    if (i == '>') {
+                        escolha = index;
+                    }
+                    index++;
+                }
+
+                mensagem = msg.substring(escolha + 2);
+            }
+
+            if ((msg != null && !("fim".equalsIgnoreCase(mensagem)))) {
+                if (infMsg[0].equals("1")) {
+                    System.out.println("Mensagem recebida de " +
+                            " /Login: @" + login +
+                            " -> " + mensagem);
+                } else {
+                    System.out.println("Mensagem de destinatario: " + login + " Encamihada por "
+                            + infMsg[7] + " Conteudo: " + mensagem);
+                }
+
+                //clientSocket.sendMensage(msg);
+
+                if (destinationToAll(mensagem)) { //Funçao que verifica se alguem foi mencionado no inicio da mensagem
                     try {
-                        this.sendMsgToAll(msg, clientSocket); //Enviar mensagens para todos;
+                        this.sendMsgToAll(mensagem, login); //Enviar mensagens para todos;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }else{
-                    this.sendMsgToOne(msg, clientSocket); //Enviar mensagens so para uma pessoa;
+                } else {
+                    this.sendMsgToOne(mensagem, login); //Enviar mensagens so para uma pessoa;
                 }
-            }else{
-                connect = false;
+
+            } else {
+                break;
             }
         }
+
     }
 
     private boolean destinationToAll(String msg) {
-        if(msg.charAt(0) != '@'){ //Se primeiro caracter da mensagem for um @, alguem foi mencionado no chat e a mensagem sera privada;
+        if (msg.charAt(0) != '@') { //Se primeiro caracter da mensagem for um @, alguem foi mencionado no chat e a mensagem sera privada;
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
 
+    public void sendMsgToAll(String msg, String login) throws IOException { //Broadcast
+        //remetente.sendMensage(remetente.getLogin()+ " :" +msg);
+        //Como a mensagem é para  todos, deve percorrer ate voltar ao remetente;
+        //Escreverá menagem e repassara pro proximo.
+        clientSocket.sendMensage( login + " -> " + msg);
 
+        //next = new ClientSocket(new Socket("localhost", clientSocket.next));
+        next.sendMensage("2 " + login + " = " + "Remetente " + " Reenviada por " + clientSocket.getLogin() +
+                " Conteudo -> " + msg);
+        //next.close();
 
-    public void sendMsgToAll(String msg, ClientSocket remetente) throws IOException { //Broadcast
-        int portRemetente = (remetente.getPort() /1111) - 1;
-        //System.out.println("Numero da porta remetente: " + portRemetente);
-        //System.out.println("Host do remetente: " + remetente.getHostAddress());
-        //Ideia é andar em sentido horario enviando a mensagem ate chegar novamente no remetente
-
-        //String host = remetente.getHostAddress();
-        int portNext = portRemetente + 1;
-        //System.out.println("PortNext:" + portNext);
-        int portsocket = (portNext%4)*1111 + 1111;
-        System.out.println("PortSocket next: " + portsocket);
-        ClientSocket next = new ClientSocket(new Socket("127.0.0.1", portsocket));
-        //System.out.println("Porta do Destinatario: " + next.getPort());
-        //System.out.println("Host do destinatario: " + next.getHostAddress());
-        next.sendMensage("@" + clientSocket.getLogin() + ": " +msg);
-        //next.readMessage();
-        //Logica de passar pro proximo;
-        //while(true){
-
-          //  Socket next = new Socket();
-           // if()
-       // }
     }
 
-    public void sendMsgToOne(String msg, ClientSocket remetente){ //Unicast
-        System.out.println("Entrou");
+
+    public void sendMsgToOne(String msg, String login) { //Unicast
+        /*Se mensagem for individual,verficara se é para si mesmo.*/
+        System.out.println("passou");
+        String[] split = msg.split(" ");
+        String marcacao = split[0].substring(1);
+        if(clientSocket.getLogin().equalsIgnoreCase(marcacao)){
+            clientSocket.sendMensage(  login + " -> " + msg);
+            System.out.println(login + ": " + msg);
+        }else{
+            System.out.println("Mensagem para outro destinatario, enviada para o proximo a direita");
+            next.sendMensage("2 " + login + " = " + "Remetente " + " Reenviada por " + clientSocket.getLogin() +
+                    " Conteudo -> " + msg);
+        }
     }
 
 

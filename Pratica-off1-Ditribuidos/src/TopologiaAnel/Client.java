@@ -1,6 +1,7 @@
 package TopologiaAnel;
 
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -8,7 +9,9 @@ public class Client{
 
     public ClientSocket clientSocket;
 
-    public void run(){
+    public ClientSocket next;
+
+    public void run() throws IOException {
 
         System.out.println("HostAddress = " + clientSocket.getHostAddress());
         System.out.println("HostName = " + clientSocket.getHostName());
@@ -23,17 +26,10 @@ public class Client{
     }
 
 
-    public Client(String host, int port){
-        String login;
+    public Client(String host, int port, int n){
         try {
-            System.out.println("Login: ");
-            Scanner cin = new Scanner(System.in);
-            login = cin.next();
-            //System.out.println(login);
-
-            clientSocket = new ClientSocket(new Socket(host, port), login);
+            clientSocket = new ClientSocket(new Socket(host, port));
             clientSocket.setIp(host);
-            clientSocket.sendMensage(clientSocket.getLogin()); //Enviando Login para servidor
             this.run();
 
         } catch (IOException e) {
@@ -41,13 +37,28 @@ public class Client{
         }
     }
 
+}
+
+class Client1{
     public static void main(String[] args) {
-        new Client("127.0.0.1", (1%4)*1111 + 1111); //2222
-        //new Client("127.0.0.1", (2%4)*1111 + 1111); //3333
-        //new Client("127.0.0.1", (3%4)*1111 + 1111); //4444
-        //new Client("127.0.0.1", (4%4)*1111 + 1111); //1111
-
+        new Client("localhost", 2222, 3333); //2222
     }
+}
 
+class Client2{
+    public static void main(String[] args) {
+        new Client("localhost", 3333, 4444); //2222
+    }
+}
 
+class Client3{
+    public static void main(String[] args) {
+        new Client("localhost", 4444, 1111); //2222
+    }
+}
+
+class Client4{
+    public static void main(String[] args) {
+        new Client("localhost", 1111, 2222); //2222
+    }
 }
