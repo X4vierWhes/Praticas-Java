@@ -64,4 +64,8 @@ public class StarSocket implements Closeable {
             e.printStackTrace();
         }
     }
+
+    public String getLogin() {
+        return this.login;
+    }
 }
