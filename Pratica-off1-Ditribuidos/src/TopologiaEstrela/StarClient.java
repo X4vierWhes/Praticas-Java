@@ -72,6 +72,7 @@ public class StarClient implements Runnable{
                 for(char a : msg.toCharArray()){
                     if(a == '>'){
                         marcador = index;
+                        index = 0;
                     }
                     index++;
                 }

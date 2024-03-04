@@ -91,6 +91,7 @@ public class StarServer{
                     for(char a : msg.toCharArray()){
                         if(a == '>'){
                             marcador = index;//Marca inicio da mensagem;
+                            index = 0;
                         }
                         index++;
                     }
@@ -115,7 +116,7 @@ public class StarServer{
             StarSocket st = iterator.next();
             if(!st.login.equalsIgnoreCase(login)){
                 if(st.sendMsg("2 " + login + " passada pelo Servidor com conteudo -> " + mensagem)){
-
+                    System.out.println("Mensagem repassada para " + st.login);
                 }else{
                     iterator.remove();
                 }
