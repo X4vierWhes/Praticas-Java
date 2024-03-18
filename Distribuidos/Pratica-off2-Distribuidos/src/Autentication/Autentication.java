@@ -34,18 +34,41 @@ public class Autentication implements AutenticationInterface {
 
     @Override
     public boolean connect(String login, String password) {
-        if(users.containsKey(login) && users.containsValue(password)){
+        if(users.containsKey(login) && users.get(login).equalsIgnoreCase(password)){
             return true;
         }
         return false;
     }
 
     @Override
-    public void signIn(String login, String password) throws RemoteException {
-        users.put(login, password);
+    public boolean signIn(String login, String password) throws RemoteException {
+        try {
+            users.put(login, password);
+            return true;
+        }catch (Exception e){
+            System.err.println("Não foi possivel cadastrar no sistema.");
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public String oi(){
         return "Oi, sou o Autentication!";
+    }
+
+    @Override
+    public void init() throws RemoteException {
+        this.users = new HashMap<>();
+
+        users.put("admin", "admin");
+        users.put("Whesley", "1234");
+        users.put("Thiago", "6666");
+        users.put("Davi", "7777");
+        users.put("Kevny", "8888");
+        users.put("Ryan", "9999");
+        users.put("Valentina", "1010");
+        users.put("Vinicius", "1111");
+        users.put("Sarah", "1212");
+        users.put("Joao Vitor", "1313");
     }
 }

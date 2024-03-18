@@ -37,12 +37,12 @@ public class Gateway implements GatewayInterface {
 
     @Override
     public boolean connect(String login, String password) throws RemoteException {
-        return false;
+        return stub.connect(login, password);
     }
 
     @Override
-    public void signIn(String login, String password) throws RemoteException {
-
+    public boolean signIn(String login, String password) throws RemoteException {
+        return stub.signIn(login, password);
     }
 
     @Override
@@ -55,7 +55,8 @@ public class Gateway implements GatewayInterface {
         try{
             Registry registro = LocateRegistry.getRegistry("localhost", Registry.REGISTRY_PORT + 1);
             stub = (AutenticationInterface) registro.lookup("Autentication");
-            System.out.println(stub.oi());
+            //System.out.println(stub.oi());
+            stub.init();
         }catch (RemoteException e){
             e.printStackTrace();
         }catch (NotBoundException e){

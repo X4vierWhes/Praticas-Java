@@ -8,7 +8,9 @@ public interface AutenticationInterface extends Remote {
 
    boolean connect(String login, String password) throws RemoteException;
 
-   void signIn(String login, String password) throws RemoteException;
+   boolean signIn(String login, String password) throws RemoteException;
 
    String oi() throws RemoteException;
+
+   void init() throws RemoteException;
 }

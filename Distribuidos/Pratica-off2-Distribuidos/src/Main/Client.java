@@ -3,95 +3,59 @@ package Main;
 import java.util.Scanner;
 
 public class Client {
-    private String login;
-    private String modelo;
+    private User user;
 
-    private String renavam;
+    private Vehicle car;
 
-    private int fabricacao;
-
-    private double preco;
-
-    private String categoria;
+    private double wallet;
 
     private boolean admin = false;
 
     public Client(){}
 
-    public Client(String login, String modelo, String renavam, int fabricacao, double preco){
-        setLogin(login);
-        setModelo(modelo);
-        setRenavam(renavam);
-        setFabricacao(fabricacao);
-        setPreco(preco);
-        setAdmin(login);
+    public Client(User user, Vehicle car, double wallet){
+        this.user = user;
+        this.car = car;
+        this.wallet = wallet;
+
+        if(user.getLogin().equalsIgnoreCase("admin")){
+            this.admin = true;
+        }
     }
 
-    public void create(){
-        Scanner cin = new Scanner(System.in);
-
-        System.out.println();
-
-        cin.close();
+    public void createCar(){
+        System.out.println("Modelo do carro: ");
     }
 
-    public String getLogin() {
-        return login;
+    public User getUser() {
+        return user;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getModelo() {
-        return modelo;
+    public Vehicle getCar() {
+        return car;
     }
 
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
+    public void setCar(Vehicle car) {
+        this.car = car;
     }
 
-    public String getRenavam() {
-        return renavam;
+    public double getWallet() {
+        return wallet;
     }
 
-    public void setRenavam(String renavam) {
-        this.renavam = renavam;
-    }
-
-    public int getFabricacao() {
-        return fabricacao;
-    }
-
-    public void setFabricacao(int fabricacao) {
-        this.fabricacao = fabricacao;
-    }
-
-    public double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setWallet(double wallet) {
+        this.wallet = wallet;
     }
 
     public boolean isAdmin() {
         return admin;
     }
 
-    public void setAdmin(String login) {
-        if("admin".equalsIgnoreCase(login)){
-            this.admin = true;
-        }else{
-            this.admin = false;
-        }
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 }
