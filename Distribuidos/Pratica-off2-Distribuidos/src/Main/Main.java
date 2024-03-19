@@ -4,6 +4,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 import java.util.Scanner;
 import  Gateway.*;
 
@@ -61,7 +62,7 @@ public class Main {
 
     }
 
-    public static void clientLoop(Client client){
+    public static void clientLoop(Client client) throws RemoteException {
         System.out.println("************************************");
         System.out.println("          Loja de Carros");
         System.out.println("Seja bem vindo!");
@@ -82,52 +83,114 @@ public class Main {
                         6 | PESQUISAR CARRO
                         7 | ALTERAR CARRO
                         8 | QUANTIDADE DE CARROS NO SISTEMA
-                        9 | SAIR                                                                            \s
+                        9 | SAIR \s
+                        Digite sua opção:
                         """);
-                try {
+                //try {
                     escolha = cin.nextInt();
 
                     switch (escolha){
-                        case 1: break;
-                        case 2: break;
-                        case 3: break;
-                        case 4: break;
-                        case 5: break;
-                        case 6: break;
-                        case 7: break;
-                        case 8: break;
-                        case 9: break;
-                        default: break;
+                        case 1: //Adicionar carro
+                            if(stub.addCar(Vehicle.create())){
+                                System.err.println("Carro adicionado");
+                            }else{
+                                System.err.println("Erro ao adicionar Carro");
+                            }
+                            break;
+                        case 2:
+                            break;
+                        case 3: //Listar todos os veiculos
+                           List<Vehicle> all = stub.listAll();
+                           if(all != null) {
+                               for (Vehicle a : all) {
+                                   a.print();
+                               }
+                           }
+                        break;
+                        case 4: //Listar por modelo
+                            System.out.println("Digite o MODELO do carro:");
+                            String model = cin.next();
+                            List<Vehicle> models = stub.listModel(model);
+
+                            if(models != null){
+                                for(Vehicle a : models){
+                                    a.print();
+                                }
+                            }else{
+                                System.err.println("Não encontrado modelo do carro");
+                            }
+                            break;
+                        case 5:
+                            break;
+                        case 6:
+                            break;
+                        case 7:
+                            break;
+                        case 8: //Quantidade de carros na loja
+                            System.out.println("Quantidade de carros na loja: " + stub.size());
+                            break;
+                        case 9:
+                            break;
+                        default:
+                            break;
 
                     }
 
-                }catch(Exception e){
+                /*}catch(Exception e){
                     System.out.println("Numero invalido");
-                }
+                }*/
 
 
             }else{
                 System.out.println("USUARIO: " + client.getUser().getLogin());
                 System.out.println("""                   
-                        ---------------------------------------------
-                        1 | LISTAR CARROS               \s
-                        2 | LISTAR TODOS OS CARROS
-                        3 | LISTAR POR MODELO
-                        4 | LISTAR POR CATEGORIA
-                        5 | PESQUISAR CARRO
-                        6 | QUANTIDADE DE CARROS NO SISTEMA
-                        7 | SAIR                                                                            \s
+                        ---------------------------------------------              \s
+                        1 | LISTAR TODOS OS CARROS
+                        2 | LISTAR POR MODELO
+                        3 | LISTAR POR CATEGORIA
+                        4 | PESQUISAR CARRO
+                        5 | QUANTIDADE DE CARROS NO SISTEMA
+                        6 | COMPRAR CARRO
+                        7 | SAIR \s
+                        Digite sua opção:
                         """);
-                try {
+                //try {
                     escolha = cin.nextInt();
 
                     switch (escolha){
-                        case 1: break;
-                        case 2: break;
-                        case 3: break;
-                        case 4: break;
-                        case 5: break;
-                        case 6: break;
+
+                        case 1: //Listar todos os veiculos
+                            List<Vehicle> all = stub.listAll();
+                            if(all != null) {
+                                for (Vehicle a : all) {
+                                    a.print();
+                                }
+                            }else{
+                                System.err.println("Não existem carros no site");
+                            }
+                            break;
+                        case 2: //Listar por modelo
+                            System.out.println("Digite o MODELO do carro: ");
+                            String model = cin.next();
+                            List<Vehicle> models = stub.listModel(model);
+
+                            if(models != null){
+                                for(Vehicle a : models){
+                                    a.print();
+                                }
+                            }else{
+                                System.err.println("Não encontrado modelo do carro");
+                            }
+                            break;
+                        case 3: //Listar por categoria
+                            break;
+                        case 4:
+                            break;
+                        case 5: //Quantidade de carros na loja
+                            System.out.println("Quantidade de carros na loja: " + stub.size());
+                            break;
+                        case 6:
+                            break;
                         case 7:
                         case 8:
                         case 9: escolha = 9; break;
@@ -135,9 +198,9 @@ public class Main {
 
                     }
 
-                }catch(Exception e){
+               /* }catch(Exception e){
                     System.out.println("Numero invalido");
-                }
+                }*/
             }
         }
     }

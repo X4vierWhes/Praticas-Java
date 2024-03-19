@@ -53,7 +53,7 @@ public class Autentication implements AutenticationInterface {
     }
 
     public String oi(){
-        return "Oi, sou o Autentication!";
+        return "Autentication conectado!";
     }
 
     @Override

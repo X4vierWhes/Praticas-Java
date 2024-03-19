@@ -1,6 +1,9 @@
 package Main;
 
-public class Vehicle {
+import java.io.Serializable;
+import java.util.Scanner;
+
+public class Vehicle implements Serializable {
 
     private String model;
     private String renavam;
@@ -22,6 +25,30 @@ public class Vehicle {
         this.year = year;
         this.price = price;
         this.setCategory(price);
+    }
+
+    public void print(){
+        System.out.println("------------------------------------------");
+        System.out.println("MODELO: " + this.getModel());
+        System.out.println("RENAVAM: " + this.getRenavam());
+        System.out.println("ANO: " + this.getYear());
+        System.out.println("PREÇO: " + this.getPrice());
+        System.out.println("Categoria: " + this.getCategory());
+    }
+
+    public static Vehicle create(){
+        Scanner cin = new Scanner(System.in);
+        System.out.println("------------------------------------------");
+        System.out.print("MODELO: ");
+        String model = cin.nextLine();
+        System.out.print("RENAVAM: ");
+        String renavam = cin.nextLine();
+        System.out.print("ANO: ");
+        int year = cin.nextInt();
+        System.out.print("PREÇO: ");
+        double price = Double.parseDouble(cin.next());
+
+        return new Vehicle(model, renavam, year, price);
     }
 
     public String getRenavam() {
@@ -66,7 +93,7 @@ public class Vehicle {
         } else if (price <= 9999) {
             this.category = "Intermediario";
         }else{
-            this.category = "Executivos";
+            this.category = "Executivo";
         }
     }
 }
