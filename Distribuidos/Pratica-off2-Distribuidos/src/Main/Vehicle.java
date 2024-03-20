@@ -89,9 +89,9 @@ public class Vehicle implements Serializable {
     }
 
     public void setCategory(double price) {
-        if(price <= 6000){
+        if(price <= 12000){
             this.category = "Economico";
-        } else if (price <= 12000) {
+        } else if (price <= 35000) {
             this.category = "Intermediario";
         }else{
             this.category = "Executivo";

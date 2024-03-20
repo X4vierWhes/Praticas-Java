@@ -85,8 +85,7 @@ public class Main {
                         7 | ALTERAR CARRO
                         8 | QUANTIDADE DE CARROS NO SISTEMA
                         9 | SAIR \s
-                        Digite sua opção:
-                        """);
+                        Digite sua opção:""");
                 //try {
                     escolha = cin.nextInt();
 
@@ -100,6 +99,24 @@ public class Main {
                             break;
                         case 2: //Deletar carro
                             System.out.println("Digite o renavam do carro que deseja DELETAR:");
+                            String delete = cin.next();
+
+                            Vehicle del = stub.searchCar(delete);
+
+                            System.out.println("Informações do carro:");
+                            del.print();
+
+                            System.out.println("Tem certeza que deseja deletar esse carro (sim) ou (nao):");
+                            String esc = cin.next();
+
+                            if("sim".equalsIgnoreCase(esc)){
+                                if(stub.deleteCar(delete)){
+                                    System.err.println("Carro deletado.");
+                                }else{
+                                    System.err.println("Não foi possivel deletar.");
+                                }
+                            }
+
                             break;
                         case 3: //Listar todos os veiculos
                            List<Vehicle> all = stub.listAll();
@@ -191,8 +208,7 @@ public class Main {
                                     3 | ANO
                                     4 | PREÇO
                                     5 | SAIR
-                                    Digite:                               \s
-                                    """);
+                                    Digite:""");
 
                                     escolha2 = cin.nextInt();
 
