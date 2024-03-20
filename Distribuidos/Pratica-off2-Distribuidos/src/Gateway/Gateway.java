@@ -71,7 +71,7 @@ public class Gateway implements GatewayInterface {
     }
 
     @Override
-    public boolean buyCar(String renavam, Client client) throws RemoteException {
+    public Client buyCar(String renavam, Client client) throws RemoteException {
         return store.buyCar(renavam, client);
     }
 

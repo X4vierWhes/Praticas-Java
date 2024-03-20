@@ -342,12 +342,20 @@ public class Main {
                         case 6: //Comprar carro
                             System.out.println("Digite o RENAVAM do carro que deseja comprar: ");
                             String buy = cin.next();
+                            client = stub.buyCar(buy, client);
 
-                            if(stub.buyCar(buy, client)){
+                            if(client.isBuy()){
                                 System.err.println("Carro comprado com sucesso.");
+                                client.setBuy(false);
                             }else{
                                 System.err.println("Não foi possivel comprar o carro.");
                             }
+
+                           /* if(stub.buyCar(buy, client)){
+                                System.err.println("Carro comprado com sucesso.");
+                            }else{
+                                System.err.println("Não foi possivel comprar o carro.");
+                            }*/
                             break;
                         case 7:
                             client.myCars();

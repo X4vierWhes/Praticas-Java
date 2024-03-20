@@ -14,6 +14,8 @@ public class Client implements Serializable {
 
     private boolean admin = false;
 
+    private boolean buy = false;
+
     public Client(){
         this.cars = new ArrayList<>();
     }
@@ -21,7 +23,7 @@ public class Client implements Serializable {
     public Client(User user, Vehicle car, double wallet){
         this.cars = new ArrayList<>();
         this.user = user;
-        this.cars.add(car);
+        //this.cars.add(car);
         this.wallet = wallet;
 
 
@@ -79,5 +81,13 @@ public class Client implements Serializable {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    public boolean isBuy() {
+        return buy;
+    }
+
+    public void setBuy(boolean buy) {
+        this.buy = buy;
     }
 }

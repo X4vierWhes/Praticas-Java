@@ -10,7 +10,7 @@ public interface StoreInterface extends Remote {
     boolean deleteCar(String renavam) throws RemoteException;
     Vehicle searchCar(String renavam) throws RemoteException;
     boolean editCar(String renavam) throws RemoteException;
-    boolean buyCar(String renavam, Client client) throws RemoteException;
+    Client buyCar(String renavam, Client client) throws RemoteException;
     void init() throws RemoteException;
     boolean addCar(Vehicle a) throws RemoteException;
     List<Vehicle> listAll() throws RemoteException;

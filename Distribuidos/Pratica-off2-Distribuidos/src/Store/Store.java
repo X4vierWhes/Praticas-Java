@@ -46,15 +46,16 @@ public class Store implements StoreInterface{
     }
 
     @Override
-    public boolean buyCar(String renavam, Client client) throws RemoteException {
+    public Client buyCar(String renavam, Client client) throws RemoteException {
         Vehicle buy = this.store.get(renavam);
         if(buy != null && client.getWallet() >= buy.getPrice()){
             client.buy(buy);
             client.attWallet(buy.getPrice());
             this.store.remove(renavam);
-            return true;
+            client.setBuy(true);
+            return client;
         }
-        return false;
+        return client;
     }
 
     @Override
