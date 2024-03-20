@@ -1,34 +1,56 @@
 package Main;
 
-import java.util.Scanner;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Client {
+public class Client implements Serializable {
     private User user;
 
     private Vehicle car;
 
+    private List<Vehicle> cars;
     private double wallet;
 
     private boolean admin = false;
 
-    public Client(){}
+    public Client(){
+        this.cars = new ArrayList<>();
+    }
 
     public Client(User user, Vehicle car, double wallet){
+        this.cars = new ArrayList<>();
         this.user = user;
-        this.car = car;
+        this.cars.add(car);
         this.wallet = wallet;
+
 
         if(user.getLogin().equalsIgnoreCase("admin")){
             this.admin = true;
         }
     }
 
-    public void createCar(){
-        System.out.println("Modelo do carro: ");
-    }
-
     public User getUser() {
         return user;
+    }
+
+    public void buy(Vehicle car){
+        this.cars.add(car);
+    }
+
+    public void attWallet(double price){
+        this.wallet -= price;
+    }
+
+    public void myCars(){
+        System.out.println("Carteira: " + this.getWallet());
+        if(this.cars != null && !this.cars.isEmpty()) {
+            for (Vehicle a : this.cars) {
+                a.print();
+            }
+        }else{
+            System.err.println("Não possui nenhum carro.");
+        }
     }
 
     public void setUser(User user) {

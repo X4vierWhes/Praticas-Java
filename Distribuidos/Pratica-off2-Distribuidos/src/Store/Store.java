@@ -1,14 +1,12 @@
 package Store;
 
+import Main.Client;
 import Main.Vehicle;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.security.spec.ECField;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Store implements StoreInterface{
     private HashMap<String, Vehicle> store;
@@ -26,18 +24,37 @@ public class Store implements StoreInterface{
     }
 
     @Override
-    public void init() throws RemoteException {
-        this.store = new HashMap<>();
-        this.store.put("123900", new Vehicle("RX-7", "123900", 2024, 12000.0));
-        this.store.put("123901", new Vehicle("Civic", "123901", 2024, 15000.0));
-        this.store.put("123902", new Vehicle("Ford-Ka", "123902", 2007, 3000.0));
-        this.store.put("123903", new Vehicle("Prisma", "123903", 2007, 6000.0));
-        this.store.put("123904", new Vehicle("Ethios", "123904", 2007, 9000.0));
-        this.store.put("123905", new Vehicle("Corolla", "123905", 2007, 8000.0));
-        this.store.put("123906", new Vehicle("Civic", "123906", 2024, 18000.0));
-        this.store.put("123907", new Vehicle("Ford-Ka", "123907", 2007, 3800.0));
-        this.store.put("123908", new Vehicle("Ethios", "123908", 2007, 8900.0));
+    public boolean deleteCar(String renavam) throws RemoteException {
+        try{
+            this.store.remove(renavam);
+            return true;
+        }catch (Exception e){
+            System.err.println("Não foi possivel deletar carro do banco de dados.");
+            e.printStackTrace();
+        }
+        return false;
+    }
 
+    @Override
+    public Vehicle searchCar(String renavam) throws RemoteException {
+        return store.get(renavam);
+    }
+
+    @Override
+    public boolean editCar(String renavam) throws RemoteException {
+        return false;
+    }
+
+    @Override
+    public boolean buyCar(String renavam, Client client) throws RemoteException {
+        Vehicle buy = this.store.get(renavam);
+        if(buy != null && client.getWallet() >= buy.getPrice()){
+            client.buy(buy);
+            client.attWallet(buy.getPrice());
+            this.store.remove(renavam);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -70,7 +87,15 @@ public class Store implements StoreInterface{
 
     @Override
     public List<Vehicle> listCategory(String category) throws RemoteException {
-        return null;
+        List<Vehicle> categorys = new ArrayList<>();
+
+        for(Vehicle a : this.store.values()){
+            if(a.getCategory().equalsIgnoreCase(category)){
+                categorys.add(a);
+            }
+        }
+
+        return categorys;
     }
 
     @Override
@@ -82,6 +107,24 @@ public class Store implements StoreInterface{
     @Override
     public String oi() throws RemoteException {
         return "Store conectado!";
+    }
+
+    @Override
+    public void init() throws RemoteException {
+        //if(this.store == null) {
+        this.store = new HashMap<>();
+        this.store.put("123900", new Vehicle("RX-7", "123900", 2024, 12000.0));
+        this.store.put("123901", new Vehicle("Civic", "123901", 2024, 15000.0));
+        this.store.put("123902", new Vehicle("Ford-Ka", "123902", 2007, 3000.0));
+        this.store.put("123903", new Vehicle("Prisma", "123903", 2007, 6000.0));
+        this.store.put("123904", new Vehicle("Ethios", "123904", 2007, 9000.0));
+        this.store.put("123905", new Vehicle("Corolla", "123905", 2007, 8000.0));
+        this.store.put("123906", new Vehicle("Civic", "123906", 2024, 18000.0));
+        this.store.put("123907", new Vehicle("Ford-Ka", "123907", 2007, 3800.0));
+        this.store.put("123908", new Vehicle("Ethios", "123908", 2007, 8900.0));
+
+        System.err.println("Loja iniciado.");
+        //}
     }
 
     public static void main(String[] args) {

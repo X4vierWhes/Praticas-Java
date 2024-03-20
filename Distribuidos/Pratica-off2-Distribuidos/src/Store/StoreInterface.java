@@ -1,12 +1,16 @@
 package Store;
 
+import Main.Client;
 import Main.Vehicle;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
 public interface StoreInterface extends Remote {
-    //boolean deleteCar(double renavam) throws RemoteException;
+    boolean deleteCar(String renavam) throws RemoteException;
+    Vehicle searchCar(String renavam) throws RemoteException;
+    boolean editCar(String renavam) throws RemoteException;
+    boolean buyCar(String renavam, Client client) throws RemoteException;
     void init() throws RemoteException;
     boolean addCar(Vehicle a) throws RemoteException;
     List<Vehicle> listAll() throws RemoteException;

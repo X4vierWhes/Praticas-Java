@@ -1,6 +1,7 @@
 package Main;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Vehicle implements Serializable {
@@ -12,11 +13,11 @@ public class Vehicle implements Serializable {
     private String category;
 
     public Vehicle(){
-        this.model = "none";
-        this.renavam = "none";
-        this.year = 0;
-        this.category = "none";
-        this.price = 0.0;
+        //this.model = "none";
+        //this.renavam = "none";
+        //this.year = 0;
+        //this.category = "none";
+        //this.price = 0.0;
     }
 
     public Vehicle(String model, String renavam, int year, double price){
@@ -90,10 +91,18 @@ public class Vehicle implements Serializable {
     public void setCategory(double price) {
         if(price <= 6000){
             this.category = "Economico";
-        } else if (price <= 9999) {
+        } else if (price <= 12000) {
             this.category = "Intermediario";
         }else{
             this.category = "Executivo";
         }
+    }
+}
+
+class CompareVehicle implements Comparator<Vehicle>{
+
+    @Override
+    public int compare(Vehicle o1, Vehicle o2) {
+        return o1.getModel().compareTo(o2.getModel());
     }
 }

@@ -11,7 +11,8 @@ import  Gateway.*;
 public class Main {
 
     static GatewayInterface stub;
-    static Client client;
+    private static Client client;
+
     public static void main(String[] args) throws RemoteException {
 
         Scanner cin = new Scanner(System.in);
@@ -22,7 +23,7 @@ public class Main {
             Registry registro = LocateRegistry.getRegistry(host, Registry.REGISTRY_PORT);
             stub = (GatewayInterface) registro.lookup("Gateway");
             //System.out.println(stub.oi());
-            stub.init();
+            //stub.init();
 
             System.out.print("login:");
             String login = cin.nextLine();
@@ -31,7 +32,7 @@ public class Main {
             System.out.println();
 
             if (stub.connect(login, password)) {
-                client = new Client(new User(login, password), new Vehicle(), 10000.0);
+                client = new Client(new User(login, password), new Vehicle(), 100000.0);
                 clientLoop(client);
             } else {
                 System.out.println("Não foi possivel conectar, cliente nao possui conta.");
@@ -43,7 +44,7 @@ public class Main {
                     password = cin.nextLine();
                     System.out.println();
                     if (stub.signIn(login, password)) {
-                        client = new Client(new User(login, password), new Vehicle(), 10000.0);
+                        client = new Client(new User(login, password), new Vehicle(), 100000.0);
                         clientLoop(client);
                         break;
                     } else {
@@ -97,11 +98,14 @@ public class Main {
                                 System.err.println("Erro ao adicionar Carro");
                             }
                             break;
-                        case 2:
+                        case 2: //Deletar carro
+                            System.out.println("Digite o renavam do carro que deseja DELETAR:");
                             break;
                         case 3: //Listar todos os veiculos
                            List<Vehicle> all = stub.listAll();
+
                            if(all != null) {
+                               all.sort(new CompareVehicle());
                                for (Vehicle a : all) {
                                    a.print();
                                }
@@ -113,6 +117,7 @@ public class Main {
                             List<Vehicle> models = stub.listModel(model);
 
                             if(models != null){
+                                models.sort(new CompareVehicle());
                                 for(Vehicle a : models){
                                     a.print();
                                 }
@@ -120,11 +125,108 @@ public class Main {
                                 System.err.println("Não encontrado modelo do carro");
                             }
                             break;
-                        case 5:
+                        case 5: //Listar por categoria
+                            System.out.println("""                
+                                    ---------------------------------------------------------------
+                                    1 | ECONOMICO
+                                    2 | INTERMEDIARIO
+                                    3 | EXECUTIVO
+                                    Digite o numero da categoria desejada:
+                                    """);
+                            String escolhanum = cin.next();
+                            List<Vehicle> categorys = null;
+                            switch (escolhanum){
+                                case "1":
+                                    categorys = stub.listCategory("Economico");
+                                    break;
+                                case "2":
+                                    categorys = stub.listCategory("Intermediario");
+                                    break;
+                                case "3":
+                                    categorys = stub.listCategory("Executivo");
+                                    break;
+                                default:
+                                    System.err.println("Escolha fora do escopo.");
+                                    break;
+                            }
+
+                            if(categorys != null){
+                                categorys.sort(new CompareVehicle());
+                                for(Vehicle a: categorys){
+                                    a.print();
+                                }
+                            }else{
+                                System.out.println("Nenhum carro encontrado na categoria.");
+                            }
+
                             break;
-                        case 6:
+                        case 6: //Pesquisar carro
+                            System.out.println("Digite o RENAVAM do carro que esta procurando: ");
+                            String renavam = cin.next();
+
+                            Vehicle search = stub.searchCar(renavam);
+
+                            if(search != null){
+                                search.print();
+                            }else{
+                                System.out.println("Carro não encontrado.");
+                            }
+
                             break;
-                        case 7:
+                        case 7: //Alterar carro
+                            System.out.println("Digite o RENAVAM do carro que deseja alterar: ");
+                            String editRenavam = cin.next();
+                            Vehicle editCar = stub.searchCar(editRenavam);
+
+
+                            if(editCar != null){
+                                stub.deleteCar(editRenavam);
+                                editCar.print();
+                                int escolha2 = 0;
+                                while(escolha2 != 5) {
+                                    System.out.println("""
+                                    ---------------------------------------------------------------
+                                    1 | MODELO
+                                    2 | RENAVAM
+                                    3 | ANO
+                                    4 | PREÇO
+                                    5 | SAIR
+                                    Digite:                               \s
+                                    """);
+
+                                    escolha2 = cin.nextInt();
+
+                                    switch (escolha2){
+                                        case 1:
+                                            System.out.println("Digite o novo modelo: ");
+                                            editCar.setModel(cin.next());
+                                            break;
+                                        case 2:
+                                            System.out.println("Digite o novo renavam:");
+                                            editCar.setRenavam(cin.next());
+                                            break;
+                                        case 3:
+                                            System.out.println("Digite o novo ano:");
+                                            editCar.setYear(cin.nextInt());
+                                            break;
+                                        case 4:
+                                            System.out.println("Digite o novo preço:");
+                                            editCar.setPrice(Double.parseDouble(cin.next()));
+                                            break;
+                                        case 5:
+                                            break;
+                                        default: break;
+
+                                    }
+                                }
+
+                                stub.addCar(editCar);
+
+
+                            }else{
+                                System.err.println("Carro não encontrado.");
+                            }
+
                             break;
                         case 8: //Quantidade de carros na loja
                             System.out.println("Quantidade de carros na loja: " + stub.size());
@@ -151,7 +253,8 @@ public class Main {
                         4 | PESQUISAR CARRO
                         5 | QUANTIDADE DE CARROS NO SISTEMA
                         6 | COMPRAR CARRO
-                        7 | SAIR \s
+                        7 | MEUS CARROS
+                        8 | SAIR \s
                         Digite sua opção:
                         """);
                 //try {
@@ -162,6 +265,7 @@ public class Main {
                         case 1: //Listar todos os veiculos
                             List<Vehicle> all = stub.listAll();
                             if(all != null) {
+                                all.sort(new CompareVehicle());
                                 for (Vehicle a : all) {
                                     a.print();
                                 }
@@ -169,12 +273,14 @@ public class Main {
                                 System.err.println("Não existem carros no site");
                             }
                             break;
+
                         case 2: //Listar por modelo
                             System.out.println("Digite o MODELO do carro: ");
                             String model = cin.next();
                             List<Vehicle> models = stub.listModel(model);
 
                             if(models != null){
+                                models.sort(new CompareVehicle());
                                 for(Vehicle a : models){
                                     a.print();
                                 }
@@ -183,26 +289,84 @@ public class Main {
                             }
                             break;
                         case 3: //Listar por categoria
+                            System.out.println("""                
+                                    ---------------------------------------------------------------
+                                    1 | ECONOMICO
+                                    2 | INTERMEDIARIO
+                                    3 | EXECUTIVO
+                                    Digite o numero da categoria desejada:
+                                    """);
+                            String escolhanum = cin.next();
+                            List<Vehicle> categorys = null;
+                            switch (escolhanum){
+                                case "1":
+                                    categorys = stub.listCategory("Economico");
+                                    break;
+                                case "2":
+                                    categorys = stub.listCategory("Intermediario");
+                                    break;
+                                case "3":
+                                    categorys = stub.listCategory("Executivo");
+                                    break;
+                                default:
+                                    System.err.println("Escolha fora do escopo.");
+                                    break;
+                            }
+
+                            if(categorys != null){
+                                categorys.sort(new CompareVehicle());
+                                for(Vehicle a: categorys){
+                                    a.print();
+                                }
+                            }else{
+                                System.out.println("Nenhum carro encontrado na categoria.");
+                            }
+
                             break;
-                        case 4:
+                        case 4: //Pesquisar carro
+                            System.out.println("Digite o RENAVAM do carro que esta procurando: ");
+                            String renavam = cin.next();
+
+                            Vehicle search = stub.searchCar(renavam);
+
+                            if(search != null){
+                                search.print();
+                            }else{
+                                System.out.println("Carro não encontrado.");
+                            }
+
                             break;
                         case 5: //Quantidade de carros na loja
                             System.out.println("Quantidade de carros na loja: " + stub.size());
                             break;
-                        case 6:
+                        case 6: //Comprar carro
+                            System.out.println("Digite o RENAVAM do carro que deseja comprar: ");
+                            String buy = cin.next();
+
+                            if(stub.buyCar(buy, client)){
+                                System.err.println("Carro comprado com sucesso.");
+                            }else{
+                                System.err.println("Não foi possivel comprar o carro.");
+                            }
                             break;
                         case 7:
+                            client.myCars();
+                            break;
                         case 8:
                         case 9: escolha = 9; break;
                         default: break;
 
                     }
 
+
+
                /* }catch(Exception e){
                     System.out.println("Numero invalido");
                 }*/
             }
         }
+
+        System.err.println("Volte sempre!");
     }
 
 }

@@ -1,6 +1,7 @@
 package Gateway;
 
 import Autentication.AutenticationInterface;
+import Main.Client;
 import Main.Vehicle;
 import Store.StoreInterface;
 
@@ -31,7 +32,7 @@ public class Gateway implements GatewayInterface {
 
             System.err.println("Gateway iniciado!");
 
-
+            refObjRemoto.init();
 
         }catch (Exception e){
             System.err.println("Servidor: " + e.toString());
@@ -55,30 +56,23 @@ public class Gateway implements GatewayInterface {
     }
 
     @Override
-    public void init() throws RemoteException {
-        try{
-            Registry registro = LocateRegistry.getRegistry("localhost", Registry.REGISTRY_PORT + 1);
-            autentication = (AutenticationInterface) registro.lookup("Autentication");
-            //System.out.println(stub.oi());
-            autentication.init();
-            System.err.println(autentication.oi());
-        }catch (RemoteException e){
-            e.printStackTrace();
-        }catch (NotBoundException e){
-            e.printStackTrace();
-        }
+    public boolean deleteCar(String renavam) throws RemoteException {
+        return this.store.deleteCar(renavam);
+    }
 
-        try{
-            Registry registro = LocateRegistry.getRegistry("localhost", Registry.REGISTRY_PORT + 2);
-            store = (StoreInterface) registro.lookup("Store");
-            //System.out.println(stub.oi());
-            store.init();
-            System.err.println(store.oi());
-        }catch (RemoteException e){
-            e.printStackTrace();
-        }catch (NotBoundException e){
-            e.printStackTrace();
-        }
+    @Override
+    public Vehicle searchCar(String renavam) throws RemoteException {
+        return store.searchCar(renavam);
+    }
+
+    @Override
+    public boolean editCar(String renavam) throws RemoteException {
+        return store.editCar(renavam);
+    }
+
+    @Override
+    public boolean buyCar(String renavam, Client client) throws RemoteException {
+        return store.buyCar(renavam, client);
     }
 
     @Override
@@ -105,4 +99,32 @@ public class Gateway implements GatewayInterface {
     public int size() throws RemoteException {
         return store.size();
     }
+
+    @Override
+    public void init() throws RemoteException {
+        try{
+            Registry registro = LocateRegistry.getRegistry("localhost", Registry.REGISTRY_PORT + 1);
+            autentication = (AutenticationInterface) registro.lookup("Autentication");
+            //System.out.println(autentication.oi());
+            autentication.init();
+            System.err.println(autentication.oi());
+        }catch (RemoteException e){
+            e.printStackTrace();
+        }catch (NotBoundException e){
+            e.printStackTrace();
+        }
+
+        try{
+            Registry registro = LocateRegistry.getRegistry("localhost", Registry.REGISTRY_PORT + 2);
+            store = (StoreInterface) registro.lookup("Store");
+            //System.out.println(autentication.oi());
+            store.init();
+            System.err.println(store.oi());
+        }catch (RemoteException e){
+            e.printStackTrace();
+        }catch (NotBoundException e){
+            e.printStackTrace();
+        }
+    }
+
 }

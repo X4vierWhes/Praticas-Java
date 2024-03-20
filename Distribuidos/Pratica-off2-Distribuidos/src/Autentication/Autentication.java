@@ -58,17 +58,21 @@ public class Autentication implements AutenticationInterface {
 
     @Override
     public void init() throws RemoteException {
-        this.users = new HashMap<>();
+        //if(this.users == null) {
+            this.users = new HashMap<>();
 
-        users.put("admin", "admin");
-        users.put("Whesley", "1234");
-        users.put("Thiago", "6666");
-        users.put("Davi", "7777");
-        users.put("Kevny", "8888");
-        users.put("Ryan", "9999");
-        users.put("Valentina", "1010");
-        users.put("Vinicius", "1111");
-        users.put("Sarah", "1212");
-        users.put("Joao Vitor", "1313");
+            this.users.put("admin", "admin");
+            this.users.put("Whesley", "1234");
+            this.users.put("Thiago", "6666");
+            this.users.put("Davi", "7777");
+            this.users.put("Kevny", "8888");
+            this.users.put("Ryan", "9999");
+            this.users.put("Valentina", "1010");
+            this.users.put("Vinicius", "1111");
+            this.users.put("Sarah", "1212");
+            this.users.put("Joao Vitor", "1313");
+
+            System.err.println("Autenticação iniciado.");
+        //}
     }
 }
