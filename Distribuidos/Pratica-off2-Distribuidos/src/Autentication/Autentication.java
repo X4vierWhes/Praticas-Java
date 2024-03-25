@@ -41,7 +41,7 @@ public class Autentication implements AutenticationInterface {
     }
 
     @Override
-    public boolean signIn(String login, String password) throws RemoteException {
+    public boolean signUp(String login, String password) throws RemoteException {
         try {
             users.put(login, password);
             return true;
