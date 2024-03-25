@@ -46,7 +46,7 @@ public class Gateway implements GatewayInterface {
     }
 
     @Override
-    public boolean signIn(String login, String password) throws RemoteException {
+    public boolean signUp(String login, String password) throws RemoteException {
         return autentication.signIn(login, password);
     }
 
