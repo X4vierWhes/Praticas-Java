@@ -43,7 +43,7 @@ public class Main {
                     System.out.print("senha:");
                     password = cin.nextLine();
                     System.out.println();
-                    if (stub.signIn(login, password)) {
+                    if (stub.signUp(login, password)) {
                         client = new Client(new User(login, password), new Vehicle(), 100000.0);
                         clientLoop(client);
                         break;
