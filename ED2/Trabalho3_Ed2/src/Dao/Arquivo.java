@@ -21,7 +21,7 @@ public class Arquivo {
 
 	
 	@SuppressWarnings("unused")
-	public static void logADD(Veiculo veiculo) {
+	public static void addLog(Veiculo veiculo) {
         String nomeArquivo = "src/Resources/log_ADD.txt";
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo, true));
